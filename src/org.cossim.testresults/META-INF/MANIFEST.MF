@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Testresults
+Bundle-SymbolicName: org.cossim.testresults; singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.cossim.testresults.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ClassPath: lib/jsch-0.1.54.jar,
+ .
