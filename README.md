@@ -12,7 +12,7 @@ The second plugin that has been developed is the COSSIM execution monitoring too
 
 ## Compiling the COSSIM-GUI
 
-Please read the [Installation](src/GuiInstallation.pdf) file.
+Please read the [Compilation](src/GuiCompilation.pdf) file.
 
 ## Using COSSIM-GUI in the context of the COSSIM simulation framework
 
