@@ -19,8 +19,6 @@ public class wizPage1 extends WizardPage {
 	private Combo clTot;
 	private Combo ndTot;
 	Combo SynchTimeUnits;
-	private Label configLbl;
-	private Text configsT;
 	Text SynchTimeT;
 	private Label scriptLbl;
 	private Label SynchTimeLbl;
@@ -45,14 +43,17 @@ public class wizPage1 extends WizardPage {
 		for(int nn=0;nn<values.NextOnP1.length;nn++){
 			values.NextOnP1[nn]=false;
 		}
-		values.NextOnP1[0]=true;
+		values.NextOnP1[0]=true;		//to be removed
 		values.NextOnP1[1]=true;
+		
 		final Composite container = new Composite(parent, SWT.NULL);
 		setControl(container);
 		GridLayout layout = new GridLayout(1, true);
 		container.setLayout(layout);
+		
 		//int[] nodes = new int[127];
 		int[] nodes = new int[1023];
+		
 		Group group1 = new Group(container, SWT.NONE);
 		group1.setText("Parameters of Commands"); 
 		group1.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false, 1, 1)); // Alignments, spaces etc
@@ -60,37 +61,18 @@ public class wizPage1 extends WizardPage {
 		
 		Group group2 = new Group(container, SWT.NONE);
 		group2.setText("Nodes and Clusters"); 
-		group2.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false,
-				1, 1)); // Alignments, spaces etc
+		group2.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false, 1, 1)); // Alignments, spaces etc
 		group2.setLayout(new GridLayout(2, false));
 
 
 		for (int nn = 0; nn < 1023; nn++) {
 			nodes[nn] = nn + 2;
 		}
-
+		
+		
 		final String[] a = Arrays.toString(nodes).split("[\\[\\]]")[1]
 				.split(", ");
 
-		configLbl = new Label(group1, SWT.NONE);
-		configLbl.setText("Config Path");
-		configsT = new Text(group1, SWT.BORDER);
-		configsT.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING,	true, false, 2, 1));
-		configsT.setText("$GEM5/configs/example/fs.py");
-		values.configs=configsT.getText();
-		configsT.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				values.configs=configsT.getText();
-				if(!configsT.getText().equals("")){
-					values.NextOnP1[0]=true;
-					getWizard().getContainer().updateButtons();
-				}
-				if(configsT.getText().equals("")){
-					values.NextOnP1[0]=false;
-					getWizard().getContainer().updateButtons();
-				}
-			}
-		});
 		
 		scriptLbl = new Label(group1, SWT.NONE);
 		scriptLbl.setText("Script");
@@ -159,6 +141,8 @@ public class wizPage1 extends WizardPage {
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
+		
+		
 		Label lblName1 = new Label(group2, SWT.NONE);
 		lblName1.setText("Total Nodes Number (2 - 1024):");
 		clTot = new Combo(group2, SWT.DROP_DOWN | SWT.READ_ONLY);

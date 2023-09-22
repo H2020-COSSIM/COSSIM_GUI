@@ -1,5 +1,6 @@
 package org.cossim.testresults.actions;
 
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,13 +13,16 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 public class statsP {
 	dialogValues dv = new dialogValues();
+
 
 	//Number of nodes in the simulation: Finds (nodes#)
 	int nodeNum() {
 		int n = -1;
 		Pattern pattern = Pattern.compile("^node([0-9]{1}[0-9]{0,1}[0-9]{0,1})$");
+
 
 		String gem5Path = System.getenv("GEM5");
 		File currentDir = new File(gem5Path); // current directory
@@ -41,6 +45,7 @@ public class statsP {
 		String lines[] = file.split("\\r?\\n");
 		String lines1[] = file.split("[\\r\\n]+"); // Remove empty lines
 
+
 		return lines1;
 	}
 	
@@ -51,6 +56,7 @@ public class statsP {
 		String gem5Path = System.getenv("GEM5");
 		File currentDir = new File(gem5Path); // current directory
 		File[] files = currentDir.listFiles();
+
 
 		int kk = 0;
 		for (File file : files) {
@@ -69,6 +75,7 @@ public class statsP {
 			} catch (IOException e) {
 				e.printStackTrace();
 
+
 			}
 		}
 		
@@ -77,98 +84,103 @@ public class statsP {
 			String[] lines;
 			lines = getLines(st[tt]);
 			for(int uu=1;uu<lines.length;uu++){ //For every line
-				lines[uu] = lines[uu].trim().replaceAll(" +", " "); //replace all spaces with one sapce
-				String sim_seconds = "[Ss][Ii][Mm]_[Ss][Ee][Cc][Oo][Nn][Dd][Ss]";
-				String sim_ticks = "[Ss][Ii][Mm]_[Tt][Ii][Cc][Kk][Ss]";
-				String final_tick = "[Ff][Ii][Nn][Aa][Ll]_[Tt][Ii][Cc][Kk]";
-				String sim_freq = "[Ss][Ii][Mm]_[Ff][Rr][Ee][Qq]";
-				String host_inst_rate = "[Hh][Oo][Ss][Tt]_[Ii][Nn][Ss][Tt]_[Rr][Aa][Tt][Ee]";
-				String host_op_rate = "[Hh][Oo][Ss][Tt]_[Oo][Pp]_[Rr][Aa][Tt][Ee]";
-				String host_tick_rate = "[Hh][Oo][Ss][Tt]_[Tt][Ii][Cc][TKk]_[Rr][Aa][Tt][Ee]";
-				String host_mem_usage = "[Hh][Oo][Ss][Tt]_[Mm][Ee][Mm]_[Uu][Ss][Aa][Gg][Ee]";
-				String host_seconds = "[Hh][Oo][Ss][Tt]_[Ss][Ee][Cc][Oo][Nn][Dd][Ss]";
-				String sim_insts = "[Ss][Ii][Mm]_[Ii][Nn][Ss][Tt][Ss]";
-				String sim_ops = "[Ss][Ii][Mm]_[Oo][Pp][Ss]";
-				Pattern ptrn1 = Pattern.compile(sim_seconds);
-				Pattern ptrn2 = Pattern.compile(sim_ticks);
-				Pattern ptrn3 = Pattern.compile(final_tick);
-				Pattern ptrn4 = Pattern.compile(sim_freq);
-				Pattern ptrn5 = Pattern.compile(host_inst_rate);
-				Pattern ptrn6 = Pattern.compile(host_op_rate);
-				Pattern ptrn7 = Pattern.compile(host_tick_rate);
-				Pattern ptrn8 = Pattern.compile(host_mem_usage);
-				Pattern ptrn9 = Pattern.compile(host_seconds);
-				Pattern ptrn10 = Pattern.compile(sim_insts);
-				Pattern ptrn11 = Pattern.compile(sim_ops);
+				lines[uu] = lines[uu].trim().replaceAll(" +", " "); //replace all spaces with one space
+				String simSeconds = "[Ss][Ii][Mm][Ss][Ee][Cc][Oo][Nn][Dd][Ss]";
+				String simTicks = "[Ss][Ii][Mm][Tt][Ii][Cc][Kk][Ss]";
+				String finalTick = "[Ff][Ii][Nn][Aa][Ll][Tt][Ii][Cc][Kk]";
+				String simFreq = "[Ss][Ii][Mm][Ff][Rr][Ee][Qq]";
+				String hostSeconds = "[Hh][Oo][Ss][Tt][Ss][Ee][Cc][Oo][Nn][Dd][Ss]";
+				String hostTickRate = "[Hh][Oo][Ss][Tt][Tt][Ii][Cc][Kk][Rr][Aa][Tt][Ee]";
+				String hostMemory = "[Hh][Oo][Ss][Tt][Mm][Ee][Mm][Oo][Rr][Yy]";
+				String simInsts = "[Ss][Ii][Mm][Ii][Nn][Ss][Tt][Ss]";
+				String simOps = "[Ss][Ii][Mm][Oo][Pp][Ss]";
+				String hostInstRate = "[Hh][Oo][Ss][Tt][Ii][Nn][Ss][Tt][Rr][Aa][Tt][Ee]";
+				String hostOpRate = "[Hh][Oo][Ss][Tt][Oo][Pp][Rr][Aa][Tt][Ee]";
+				
+				
+				Pattern ptrn1 = Pattern.compile(simSeconds);
+				Pattern ptrn2 = Pattern.compile(simTicks);
+				Pattern ptrn3 = Pattern.compile(finalTick);
+				Pattern ptrn4 = Pattern.compile(simFreq);
+				Pattern ptrn5 = Pattern.compile(hostSeconds);
+				Pattern ptrn6 = Pattern.compile(hostTickRate);
+				Pattern ptrn7 = Pattern.compile(hostMemory);
+				Pattern ptrn8 = Pattern.compile(simInsts);
+				Pattern ptrn9 = Pattern.compile(simOps);
+				Pattern ptrn10 = Pattern.compile(hostInstRate);
+				Pattern ptrn11 = Pattern.compile(hostOpRate);
+
 
 				
 				String[] med1 = new String[2];
 				if(ptrn1.matcher(lines[uu].trim().split("#")[0].trim().split(" ")[0].trim()).find()){
 					med1[1] = lines[uu].trim().split("#")[1];
 					med1[0] = lines[uu].trim().split("#")[0].trim().split(" ")[1];
-					med.put("sim_seconds", med1);
-					//System.out.println("sim_seconds "+uu);
+					med.put("simSeconds", med1);
+					//System.out.println("simSeconds "+uu);
 				}
 				if(ptrn2.matcher(lines[uu].trim().split("#")[0].trim().split(" ")[0].trim()).find()){
 					med1[1] = lines[uu].trim().split("#")[1];
 					med1[0] = lines[uu].trim().split("#")[0].trim().split(" ")[1];
-					med.put("sim_ticks", med1);
-					//System.out.println("sim_ticks "+uu);
+					med.put("simTicks", med1);
+					//System.out.println("simTicks "+uu);
 				}
 				if(ptrn3.matcher(lines[uu].trim().split("#")[0].trim().split(" ")[0].trim()).find()){
 					med1[1] = lines[uu].trim().split("#")[1];
 					med1[0] = lines[uu].trim().split("#")[0].trim().split(" ")[1];
-					med.put("final_tick", med1);
-					//System.out.println("final_tick "+uu);
+					med.put("finalTick", med1);
+					//System.out.println("finalTick "+uu);
 				}
 				if(ptrn4.matcher(lines[uu].trim().split("#")[0].trim().split(" ")[0].trim()).find()){
 					med1[1] = lines[uu].trim().split("#")[1];
 					med1[0] = lines[uu].trim().split("#")[0].trim().split(" ")[1];
-					med.put("sim_freq", med1);
-					//System.out.println("sim_freq "+uu);
+					med.put("simFreq", med1);
+					//System.out.println("simFreq "+uu);
 				}
 				if(ptrn5.matcher(lines[uu].trim().split("#")[0].trim().split(" ")[0].trim()).find()){
 					med1[1] = lines[uu].trim().split("#")[1];
 					med1[0] = lines[uu].trim().split("#")[0].trim().split(" ")[1];
-					med.put("host_inst_rate", med1);
-					//System.out.println("host_inst_rate "+uu);
+					med.put("hostSeconds", med1);
+					//System.out.println("hostSeconds "+uu);
 				}
 				if(ptrn6.matcher(lines[uu].trim().split("#")[0].trim().split(" ")[0].trim()).find()){
 					med1[1] = lines[uu].trim().split("#")[1];
 					med1[0] = lines[uu].trim().split("#")[0].trim().split(" ")[1];
-					med.put("host_op_rate", med1);
-					//System.out.println("host_op_rate "+uu);
+					med.put("hostTickRate", med1);
+					//System.out.println("hostTickRate "+uu);
 				}
 				if(ptrn7.matcher(lines[uu].trim().split("#")[0].trim().split(" ")[0].trim()).find()){
 					med1[1] = lines[uu].trim().split("#")[1];
 					med1[0] = lines[uu].trim().split("#")[0].trim().split(" ")[1];
-					med.put("host_tick_rate", med1);
-					//System.out.println("host_tick_rate "+uu);
+					med.put("hostMemory", med1);
+					//System.out.println("hostMemory "+uu);
 				}
 				if(ptrn8.matcher(lines[uu].trim().split("#")[0].trim().split(" ")[0].trim()).find()){
 					med1[1] = lines[uu].trim().split("#")[1];
 					med1[0] = lines[uu].trim().split("#")[0].trim().split(" ")[1];
-					med.put("host_mem_usage", med1);
-					//System.out.println("host_mem_usage "+uu);
+					med.put("simInsts", med1);
+					//System.out.println("simInsts "+uu);
 				}
 				if(ptrn9.matcher(lines[uu].trim().split("#")[0].trim().split(" ")[0].trim()).find()){
 					med1[1] = lines[uu].trim().split("#")[1];
 					med1[0] = lines[uu].trim().split("#")[0].trim().split(" ")[1];
-					med.put("host_seconds", med1);
-					//System.out.println("host_seconds "+uu);
+					med.put("simOps", med1);
+					//System.out.println("simOps "+uu);
 				}
 				if(ptrn10.matcher(lines[uu].trim().split("#")[0].trim().split(" ")[0].trim()).find()){
 					med1[1] = lines[uu].trim().split("#")[1];
 					med1[0] = lines[uu].trim().split("#")[0].trim().split(" ")[1];
-					med.put("sim_insts", med1);
-					//System.out.println("sim_insts "+uu);
+					med.put("hostInstRate", med1);
+					//System.out.println("hostInstRate "+uu);
 				}
 				if(ptrn11.matcher(lines[uu].trim().split("#")[0].trim().split(" ")[0].trim()).find()){
 					med1[1] = lines[uu].trim().split("#")[1];
 					med1[0] = lines[uu].trim().split("#")[0].trim().split(" ")[1];
-					med.put("sim_ops", med1);
-					//System.out.println("sim_ops "+uu);
+					med.put("hostOpRate", med1);
+					//System.out.println("hostOpRate "+uu);
 				}
+				
+
 
 			}
 			nodes.put("node"+tt, med);
@@ -176,6 +188,7 @@ public class statsP {
 		
 		
 		return nodes;
+
 
 	}
 	
@@ -189,10 +202,12 @@ public class statsP {
 		File currentDir = new File(gem5Path); // current directory
 		File[] files = currentDir.listFiles();
 
+
 		int kk = 0;
 		for (File file : files) {
 			Matcher matcher = pattern.matcher(file.getName());
 			if (file.isDirectory() && matcher.find()) {
+
 
 				kk += 1;
 			}
@@ -243,14 +258,18 @@ public class statsP {
 		System.out.println(ll);
 		Map<String, String[]> ok = new LinkedHashMap<String, String[]>();
 		ok = (Map<String, String[]>) ggg.get("node0");	
-		if(ok.get("sim_seconds")!=null){
-			System.out.println(ok.get("sim_seconds")[0]);
+		if(ok.get("simSeconds")!=null){
+			System.out.println(ok.get("simSeconds")[0]);
 		}else{
 			System.out.println("nullara");
 		}
 
 
 
+
+
+
 	}
+
 
 }

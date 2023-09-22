@@ -29,10 +29,11 @@ import org.eclipse.swt.widgets.Text;
 public class wizPage3 extends WizardPage {
 
 	private wizVal values;
-
+	
+	
 	private Label[] KernelLbl;
 	private Label[] diskImLbl;
-	private Label[] MachTypeLdl;
+	private Label[] configLbl; 					
 	private Label[] memSizeLbl;
 	private Label[] StLbl;
 	private Button[] Stbtn;
@@ -45,7 +46,7 @@ public class wizPage3 extends WizardPage {
 	private Label[] passLbl;
 	private Combo[] KernelComb;
 	private Combo[] diskImComb;
-	private Combo[] MachTypeComb;
+	private Combo[] configComb;   				
 	private Combo[] memSizeComb;
 	
 	private Text[] RxPcktTextT;
@@ -66,31 +67,29 @@ public class wizPage3 extends WizardPage {
 	private Combo[] core86Combo;
 	private Label[] core86VLbl;
 	
-	final String[] kernelA32 = { "vmlinux.aarch32.ll_20131205.0-gem5" };
-	final String[] kernelA64 = { "vmlinux.aarch64.20140821" };
-	final String[] kernelx86 = { "x86_64-vmlinux-3.2.24-smp" };
+	final String[] kernelRISCV = { "riscv-bootloader-vmlinux-5.10-PCI" };
+	final String[] kernelA64 = { "vmlinux.arm64" }; 
+	final String[] kernelx86 = { "vmlinux-5.4.49" }; 
 
-	final String[] diskImageA32 = { "linux-aarch32-ael.img", "aarch32-ubuntu-natty-headless.img" };   //
-	final String[] diskImageA64 = { "linaro-minimal-aarch64.img", "aarch64-ubuntu-trusty-headless.img" };
-	final String[] diskImagex86 = { "x86_64root.img", "ubuntu-12.04.img" };//
+	final String[] diskImageRISCV = {"riscv-ubuntu.img" };
+	final String[] diskImageA64 = { "ubuntu-18.04-arm64-docker.img" }; 
+	final String[] diskImagex86 = { "x86-ubuntu.img" }; 
 
-	final String[] memSize = { "512MB", "1024MB", "2048MB", "4096MB" };
+	final String[] memSize = { "2048MB", "4096MB", "8192MB" }; 
 
 	final String[] units = { "ms", "us" };
+	
+	final String[] configRISCV = { "$GEM5/configs/example/gem5_library/riscv-ubuntu-run.py" };
+	final String[] configA64 = { "$GEM5/configs/example/arm/starter_fs.py" };
+	final String[] configx86 = { "$GEM5/configs/example/fs.py" };
 
-	final String[] macType32 = { "VExpress_EMM" };
-	final String[] macType64 = { "VExpress_EMM64" };
-
-	final String[] dtb32l = { "vexpress.aarch32.ll_20131205.0-gem5.1cpu.dtb",
-			"vexpress.aarch32.ll_20131205.0-gem5.2cpu.dtb",
-			"vexpress.aarch32.ll_20131205.0-gem5.4cpu.dtb" };
+	final String[] dtbriscv = {"1", "2", "4", "8", "16", "32", "64"};		
+	final String[] dtb64 = {"1", "2", "4", "8", "16", "32", "64"};			
+	final String[] dtb86 = {"1", "2", "4", "8", "16", "32", "64"};			
 	
-	final String[] dtb32 = {"1", "2", "4"};
-	final String[] dtb64 = {"1", "2", "4"};
-	final String[] dtb86 = {"1", "2", "4"};
-	
-	final String[] dtb64l = { "vexpress.aarch64.20140821.dtb" };
-	
+	final String[] dtbriscvl = { "" };
+	final String[] dtb64l = { "" }; 
+		
 	final String[] powerx86 = {"x86_AtomicSimpleCPU_template.xml"};
 	final String[] powerARM = {"ARM_AtomicSimpleCPU_template.xml"};
 
@@ -119,7 +118,6 @@ public class wizPage3 extends WizardPage {
 		values.composite_3.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, true));
 
 		createp3(values.composite_3, values.sc3, values.container3);
-
 	}
 
 	void createp3(Composite composite_2, ScrolledComposite sc, Composite container){
@@ -130,7 +128,7 @@ public class wizPage3 extends WizardPage {
 		empty3 = new Label[values.gettotCl()];
 		KernelLbl = new Label[values.gettotCl()];
 		diskImLbl = new Label[values.gettotCl()];
-		MachTypeLdl = new Label[values.gettotCl()];
+		configLbl = new Label[values.gettotCl()];		
 		memSizeLbl = new Label[values.gettotCl()];
 		StLbl = new Label[values.gettotCl()];
 		Stbtn = new Button[values.gettotCl()];
@@ -143,7 +141,7 @@ public class wizPage3 extends WizardPage {
 		usrLbl = new Label[values.gettotCl()];
 		passLbl = new Label[values.gettotCl()];
 		diskImComb = new Combo[values.gettotCl()];
-		MachTypeComb = new Combo[values.gettotCl()];
+		configComb = new Combo[values.gettotCl()];			
 		memSizeComb = new Combo[values.gettotCl()];
 		RxPcktTextT = new Text[values.gettotCl()];
 		RxPcktCombU = new Combo[values.gettotCl()];
@@ -159,6 +157,7 @@ public class wizPage3 extends WizardPage {
 		core86VLbl = new Label[values.gettotCl()];
 		values.obj = new String[values.gettotCl()][23];
 
+		
 		for (int k = 0; k < values.gettotCl(); k++) {
 			int l = k + 1;
 		}
@@ -194,10 +193,10 @@ public class wizPage3 extends WizardPage {
 					false, false, 3, 1));
 			if (values.map.get("cl" + k)[4].equals("x86")) {
 				KernelComb[li].setItems(kernelx86);
-			} else if (values.map.get("cl" + k)[4].equals("ARM-32")) {
-				KernelComb[li].setItems(kernelA32);
-			} else if (values.map.get("cl" + k)[4].equals("ARM-64")) {
+			}	else if (values.map.get("cl" + k)[4].equals("ARM-64")) {
 				KernelComb[li].setItems(kernelA64);
+			}	else if (values.map.get("cl" + k)[4].equals("RISC-V")) {
+				KernelComb[li].setItems(kernelRISCV);
 			}
 
 			
@@ -225,10 +224,10 @@ public class wizPage3 extends WizardPage {
 					false, false, 3, 1));
 			if (values.map.get("cl" + k)[4].equals("x86")) {
 				diskImComb[li].setItems(diskImagex86);
-			} else if (values.map.get("cl" + k)[4].equals("ARM-32")) {
-				diskImComb[li].setItems(diskImageA32);
-			} else if (values.map.get("cl" + k)[4].equals("ARM-64")) {
+			}	else if (values.map.get("cl" + k)[4].equals("ARM-64")) {
 				diskImComb[li].setItems(diskImageA64);
+			}   else if (values.map.get("cl" + k)[4].equals("RISC-V")) {
+				diskImComb[li].setItems(diskImageRISCV);
 			}
 
 			diskImComb[li].addSelectionListener(new SelectionListener() {
@@ -244,6 +243,7 @@ public class wizPage3 extends WizardPage {
 
 				}
 			});
+			
 			// Mem Size
 			memSizeLbl[li] = new Label(values.grp3[li], SWT.NONE);
 			memSizeLbl[li].setText("mem-size");
@@ -264,48 +264,52 @@ public class wizPage3 extends WizardPage {
 				}
 			});
 
-			// MachineType and dtb if not x86
-			if (!values.map.get("cl" + k)[4].equals("x86")) {
-				MachTypeLdl[li] = new Label(values.grp3[li], SWT.NONE);
-				MachTypeLdl[li].setText("machine-type");
-				MachTypeComb[li] = new Combo(values.grp3[li], SWT.DROP_DOWN | SWT.READ_ONLY);
-				MachTypeComb[li].setLayoutData(new GridData(SWT.FILL,
-						SWT.BEGINNING, false, false, 2, 1));
-				if (values.map.get("cl" + k)[4].equals("ARM-32")) {
-					MachTypeComb[li].setItems(macType32);
-				} else if (values.map.get("cl" + k)[4].equals("ARM-64")) {
-					MachTypeComb[li].setItems(macType64);
+			
+			// Configuration Path                                      
+			configLbl[li] = new Label(values.grp3[li], SWT.NONE);
+			configLbl[li].setText("ConfigPath");
+			configComb[li] = new Combo(values.grp3[li], SWT.DROP_DOWN | SWT.READ_ONLY);
+			configComb[li].setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, false, false, 2, 1));
+			if (values.map.get("cl" + k)[4].equals("x86")) {
+				configComb[li].setItems(configx86);
+			}	else if (values.map.get("cl" + k)[4].equals("ARM-64")) {
+				configComb[li].setItems(configA64);
+			}	else if (values.map.get("cl" + k)[4].equals("RISC-V")) {
+				configComb[li].setItems(configRISCV);
+			}
+			
+
+			configComb[li].addSelectionListener(new SelectionListener() {
+				public void widgetSelected(SelectionEvent e) {
+					values.obj[ki][12] = configComb[ki].getText();
+					values.interMap.put(values.clAtrrs[13], configComb[ki].getText());
+					values.NextOnP3[ki][7]=true;
+					getWizard().getContainer().updateButtons();
 				}
 
-				MachTypeComb[li].addSelectionListener(new SelectionListener() {
-					public void widgetSelected(SelectionEvent e) {
-						values.obj[ki][12] = MachTypeComb[ki].getText();
-						values.interMap.put(values.clAtrrs[13], MachTypeComb[ki].getText());
-						values.NextOnP3[ki][7]=true;
-						getWizard().getContainer().updateButtons();
-					}
+				public void widgetDefaultSelected(SelectionEvent e) {
 
-					public void widgetDefaultSelected(SelectionEvent e) {
-
-					}
-				});
-			}
+				}
+			});
+			
+			
+			
 			
 			if (!values.map.get("cl" + k)[4].equals("x86")) {
 			dtbLbl[li] = new Label(values.grp3[li], SWT.NONE);
-			dtbLbl[li].setText("dtb (Cores)");
+			dtbLbl[li].setText("Cores"); 
 			dtbLbl[li].setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 			dtdCombo[li] = new Combo(values.grp3[li], SWT.DROP_DOWN | SWT.READ_ONLY);
 			dtdCombo[li].setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-			if (values.map.get("cl" + k)[4].equals("ARM-32")) {
-				dtdCombo[li].setItems(dtb32);
-			} else if (values.map.get("cl" + k)[4].equals("ARM-64")) {
+			if (values.map.get("cl" + k)[4].equals("ARM-64")) {
 				dtdCombo[li].setItems(dtb64);
+			} else if (values.map.get("cl" + k)[4].equals("RISC-V")) {
+				dtdCombo[li].setItems(dtbriscv);
 			}
 			dtbVLbl[li] = new Label(values.grp3[li], SWT.NONE);
 			dtbVLbl[li].setLayoutData(new GridData(SWT.FILL,
 					SWT.BEGINNING, true, false, 5, 1));
-			dtbVLbl[li].setText("(Not Selected)");
+			dtbVLbl[li].setText(""); // (Not Selected)
 
 			final int dd = k;
 			dtdCombo[li].addSelectionListener(new SelectionListener() {
@@ -315,40 +319,67 @@ public class wizPage3 extends WizardPage {
 					values.interMap.put(values.clAtrrs[14], dtdCombo[ki].getText());
 					values.NextOnP3[ki][8]=true;
 					
-					if (values.map.get("cl" + dd)[4].equals("ARM-32")) {
-						if(dtdCombo[ki].getText().equals("1")){
-							values.obj[ki][13] = dtb32l[0];
-							values.obj[ki][22] = "1";
-							values.interMap.put(values.clAtrrs[14], dtb32l[0]);
-							dtbVLbl[ki].setText("("+dtb32l[0]+")");
-						}else if(dtdCombo[ki].getText().equals("2")){
-							values.obj[ki][13] = dtb32l[1];
-							values.obj[ki][22] = "2";
-							values.interMap.put(values.clAtrrs[14], dtb32l[1]);
-							dtbVLbl[ki].setText("("+dtb32l[1]+")");
-						}else if(dtdCombo[ki].getText().equals("4")){
-							values.obj[ki][13] = dtb32l[2];
-							values.obj[ki][22] = "4";
-							values.interMap.put(values.clAtrrs[14],  dtb32l[2]);
-							dtbVLbl[ki].setText("("+dtb32l[2]+")");
-						}
-					} else if (values.map.get("cl" + dd)[4].equals("ARM-64")) { 
+					if (values.map.get("cl" + dd)[4].equals("ARM-64")) { 
 						if(dtdCombo[ki].getText().equals("1")){
 							values.obj[ki][13] = dtb64l[0];		//Only one value at this time
 							values.obj[ki][22] = "1";
 							values.interMap.put(values.clAtrrs[14], dtb64l[0]);
-							dtbVLbl[ki].setText("("+dtb64l[0]+")");
 						}else if(dtdCombo[ki].getText().equals("2")){
 							values.obj[ki][13] = dtb64l[0];		//Only one value at this time
 							values.obj[ki][22] = "2";
 							values.interMap.put(values.clAtrrs[14], dtb64l[0]);
-							dtbVLbl[ki].setText("("+dtb64l[0]+")");
 						}else if(dtdCombo[ki].getText().equals("4")){
 							values.obj[ki][13] = dtb64l[0];		//Only one value at this time
 							values.obj[ki][22] = "4";
 							values.interMap.put(values.clAtrrs[14], dtb64l[0]);
-							dtbVLbl[ki].setText("("+dtb64l[0]+")");
-						}
+						}else if(dtdCombo[ki].getText().equals("8")){	
+							values.obj[ki][13] = dtb64l[0];		//Only one value at this time
+							values.obj[ki][22] = "8";
+							values.interMap.put(values.clAtrrs[14], dtb64l[0]);
+						}else if(dtdCombo[ki].getText().equals("16")){
+							values.obj[ki][13] = dtb64l[0];		//Only one value at this time
+							values.obj[ki][22] = "16";
+							values.interMap.put(values.clAtrrs[14], dtb64l[0]);
+						}else if(dtdCombo[ki].getText().equals("32")){
+							values.obj[ki][13] = dtb64l[0];		//Only one value at this time
+							values.obj[ki][22] = "32";
+							values.interMap.put(values.clAtrrs[14], dtb64l[0]);
+						}else if(dtdCombo[ki].getText().equals("64")){
+							values.obj[ki][13] = dtb64l[0];		//Only one value at this time
+							values.obj[ki][22] = "64";
+							values.interMap.put(values.clAtrrs[14], dtb64l[0]);
+						}																								
+					}
+					else if (values.map.get("cl" + dd)[4].equals("RISC-V")) { 
+						if(dtdCombo[ki].getText().equals("1")){
+							values.obj[ki][13] = dtbriscvl[0];		//Only one value at this time
+							values.obj[ki][22] = "1";
+							values.interMap.put(values.clAtrrs[14], dtbriscvl[0]);
+						}else if(dtdCombo[ki].getText().equals("2")){
+							values.obj[ki][13] = dtbriscvl[0];		//Only one value at this time
+							values.obj[ki][22] = "2";
+							values.interMap.put(values.clAtrrs[14], dtbriscvl[0]);
+						}else if(dtdCombo[ki].getText().equals("4")){
+							values.obj[ki][13] = dtbriscvl[0];		//Only one value at this time
+							values.obj[ki][22] = "4";
+							values.interMap.put(values.clAtrrs[14], dtbriscvl[0]);
+						}else if(dtdCombo[ki].getText().equals("8")){													
+							values.obj[ki][13] = dtbriscvl[0];		//Only one value at this time
+							values.obj[ki][22] = "8";
+							values.interMap.put(values.clAtrrs[14], dtbriscvl[0]);
+						}else if(dtdCombo[ki].getText().equals("16")){
+							values.obj[ki][13] = dtbriscvl[0];		//Only one value at this time
+							values.obj[ki][22] = "16";
+							values.interMap.put(values.clAtrrs[14], dtbriscvl[0]);
+						}else if(dtdCombo[ki].getText().equals("32")){
+							values.obj[ki][13] = dtbriscvl[0];		//Only one value at this time
+							values.obj[ki][22] = "32";
+							values.interMap.put(values.clAtrrs[14], dtbriscvl[0]);
+						}else if(dtdCombo[ki].getText().equals("64")){
+							values.obj[ki][13] = dtbriscvl[0];		//Only one value at this time
+							values.obj[ki][22] = "64";
+							values.interMap.put(values.clAtrrs[14], dtbriscvl[0]);
+						}																								
 					}
 					getWizard().getContainer().updateButtons();
 				}
@@ -357,6 +388,51 @@ public class wizPage3 extends WizardPage {
 
 				}
 			});
+			}
+
+			if (values.map.get("cl" + k)[4].equals("x86")) {
+				core86Lbl[li] = new Label(values.grp3[li], SWT.NONE);
+				core86Lbl[li].setText("Cores");
+				core86Lbl[li].setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+				core86Combo[li] = new Combo(values.grp3[li], SWT.DROP_DOWN | SWT.READ_ONLY);
+				core86Combo[li].setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+				core86Combo[li].setItems(dtb86);
+				
+				core86VLbl[li] = new Label(values.grp3[li], SWT.NONE);
+				core86VLbl[li].setLayoutData(new GridData(SWT.FILL,
+						SWT.BEGINNING, true, false, 5, 1)); 
+				core86VLbl[li].setText(""); // (Not Selected)
+				
+				final int dd1 = k;
+				core86Combo[li].addSelectionListener(new SelectionListener() {
+					
+					public void widgetSelected(SelectionEvent e) {
+						values.NextOnP3[ki][8]=true;
+						if(core86Combo[ki].getText().equals("1")){
+							values.obj[ki][22] = "1";
+						}else if(core86Combo[ki].getText().equals("2")){
+							values.obj[ki][22] = "2";
+						}else if(core86Combo[ki].getText().equals("4")){
+							values.obj[ki][22] = "4";
+						}else if(core86Combo[ki].getText().equals("8")){		
+							values.obj[ki][22] = "8";
+						}else if(core86Combo[ki].getText().equals("16")){
+							values.obj[ki][22] = "16";
+						}else if(core86Combo[ki].getText().equals("32")){
+							values.obj[ki][22] = "32";
+						}else if(core86Combo[ki].getText().equals("64")){
+							values.obj[ki][22] = "64";
+						}														
+						getWizard().getContainer().updateButtons();
+					}
+
+					
+					public void widgetDefaultSelected(SelectionEvent e) {
+
+					}
+				});
+						
+				
 			}
 			
 			values.NextOnP3[ki][3]=true;   
@@ -424,42 +500,7 @@ public class wizPage3 extends WizardPage {
 				}
 			});
 			
-			if (values.map.get("cl" + k)[4].equals("x86")) {
-				core86Lbl[li] = new Label(values.grp3[li], SWT.NONE);
-				core86Lbl[li].setText("Cores");
-				core86Lbl[li].setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-				core86Combo[li] = new Combo(values.grp3[li], SWT.DROP_DOWN | SWT.READ_ONLY);
-				core86Combo[li].setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
-				core86Combo[li].setItems(dtb86);
-				
-				core86VLbl[li] = new Label(values.grp3[li], SWT.NONE);
-				core86VLbl[li].setLayoutData(new GridData(SWT.FILL,
-						SWT.BEGINNING, true, false, 1, 1));
-				core86VLbl[li].setText("(Not Selected)");
-				final int dd1 = k;
-				core86Combo[li].addSelectionListener(new SelectionListener() {
-					
-					public void widgetSelected(SelectionEvent e) {
-						values.NextOnP3[ki][8]=true;
-						core86VLbl[ki].setText("Cores: "+ core86Combo[ki].getText());
-						if(core86Combo[ki].getText().equals("1")){
-							values.obj[ki][22] = "1";
-						}else if(core86Combo[ki].getText().equals("2")){
-							values.obj[ki][22] = "2";
-						}else if(core86Combo[ki].getText().equals("4")){
-							values.obj[ki][22] = "4";
-						}
-						getWizard().getContainer().updateButtons();
-					}
-
-					
-					public void widgetDefaultSelected(SelectionEvent e) {
-
-					}
-				});
-						
-				
-			}
+			
 			
 			Stbtn[li] = new Button(values.grp3[li], SWT.PUSH);
 			Stbtn[li].setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
@@ -468,7 +509,7 @@ public class wizPage3 extends WizardPage {
 			if (!values.map.get("cl" + k)[4].equals("x86")) {
 				StLbl[li].setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 6, 1));
 			}else{
-				StLbl[li].setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 3, 1));
+				StLbl[li].setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 6, 1));
 			}
 			
 			Stbtn[li].addSelectionListener(new SelectionAdapter() {
@@ -564,7 +605,7 @@ public class wizPage3 extends WizardPage {
 				values.obj[ki][16] = "null";
 				values.obj[ki][17] = "null";
 			}
-			//Energy	
+			// Energy
 			if (values.map.get("cl" + k)[20].equals("true")) {
 				powerLbl[li] = new Label(values.grp3[li], SWT.NONE);
 				powerLbl[li].setText("McPat-xml");
@@ -593,6 +634,10 @@ public class wizPage3 extends WizardPage {
 				
 				
 			}
+			
+			
+			
+			
 		
 		}
 
@@ -614,16 +659,14 @@ public class wizPage3 extends WizardPage {
 	
 		for(int k=0;k<values.gettotCl();k++){
 			int l=k+1;
-			if(val[k][0] == true && val[k][1] == true && val[k][2] == true && val[k][3] == true && val[k][4] == true  && val[k][5] == true  && val[k][6] == true){
-				//enable[k] = true;
-				if(values.map.get("cl"+l)[4].equals("x86")){ //if(x86)
-					if(val[k][8] == true){ //if cores
+			if(val[k][0] == true && val[k][1] == true && val[k][2] == true && val[k][3] == true && val[k][4] == true  && val[k][5] == true  && val[k][6] == true && val[k][7] == true){ // val[k][7] == true gia to config
+				if(val[k][8] == true){ //if cores
 					if(values.map.get("cl"+l)[2].equals("true")){ //if(remote)
 						if(values.map.get("cl"+l)[20].equals("true")){ //if(Energy) 
 							if(val[k][13] == true && val[k][10] == true && val[k][11] == true && val[k][12] == true){
 								enable[k]=true;
 							}
-						}else if(values.map.get("cl"+l)[20].equals("false")){ //if(not bench) 
+						}else if(values.map.get("cl"+l)[20].equals("false")){ //if(not Energy)
 							if(val[k][10] == true && val[k][11] == true && val[k][12] == true){
 								enable[k]=true;
 							}
@@ -637,31 +680,7 @@ public class wizPage3 extends WizardPage {
 							enable[k]=true;
 						}
 					}
-					}
-				}else if(values.map.get("cl"+l)[4].equals("ARM-32") || values.map.get("cl"+l)[4].equals("ARM-64")){ //if(ARM)
-					if(val[k][7] == true && val[k][8] == true){//mach-type, cores
-						if(values.map.get("cl"+l)[2].equals("true")){ //if(remote)
-							if(values.map.get("cl"+l)[20].equals("true")){ //if(Energy) 
-								if(val[k][13] == true && val[k][10] == true && val[k][11] == true && val[k][12] == true){
-									enable[k]=true;
-								}
-							}else if(values.map.get("cl"+l)[20].equals("false")){ //if(not Energy) 
-								if(val[k][10] == true && val[k][11] == true && val[k][12] == true){
-									enable[k]=true;
-								}
-							}
-						}else if(values.map.get("cl"+l)[2].equals("false")){ //if (not remote)
-							if(values.map.get("cl"+l)[20].equals("true")){ //if(Energy) 
-								if(val[k][13] == true){
-									enable[k]=true;
-								}
-							}else if(values.map.get("cl"+l)[20].equals("false")){ //if(not Energy) 
-								enable[k]=true;
-							}
-						}
-					}
 				}
-			
 			}
 		}
 		

@@ -1,10 +1,12 @@
 package org.cossim.testresults.actions;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Vector;
+
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
@@ -21,6 +23,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
 
+
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
@@ -28,11 +31,14 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 
+
 public class JdownloadRemNodes extends Dialog {
+
 
 	protected JdownloadRemNodes(Shell parentShell) {
 		super(parentShell);
 	}
+
 
 	String openRunSH(){ //Reads run.sh file int a String
 		String run = "";
@@ -47,6 +53,7 @@ public class JdownloadRemNodes extends Dialog {
 	String[] getLines(String rr) throws IOException { //Briskei tis grammes. Afairei tis kenes kai ta cd(Ta cd efygan etsi ki alliws)
 		String lines[] = rr.split("\\r?\\n");
 		String lines1[] = rr.split("[\\r\\n]+"); // Remove empty lines
+
 
 		return lines1;
 	}
@@ -65,7 +72,10 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 
 
 
-static String[] remAttrs(String line){//Epistrefei gia ka8e grammh ta stoixei toy remote
+
+
+
+static String[] remAttrs(String line){//Epistrefei gia ka8e grammh ta stoixeia toy remote
 	
 	String[] rem = new String[3];
 	
@@ -84,6 +94,9 @@ static String[] remAttrs(String line){//Epistrefei gia ka8e grammh ta stoixei to
 
 
 
+
+
+
 String[][] remoteNodes4getRes(){ //String[][] with [remNode][remAttr] --> remAttr[0]=nodeNum, remAttr[1]=IP, remAttr[2]=userName. remAttr[3]=password
 	int remNum = 0;
 	int remCount = 0;
@@ -94,6 +107,7 @@ String[][] remoteNodes4getRes(){ //String[][] with [remNode][remAttr] --> remAtt
 			}
 		}
 	} catch (IOException e) {
+
 
 		// TODO Auto-generated catch block
 		e.printStackTrace();
@@ -118,6 +132,7 @@ String[][] remoteNodes4getRes(){ //String[][] with [remNode][remAttr] --> remAtt
 	return remAttrs;
 }
 
+
 void connect(String[] remNodes){
 	 JSch jsch = new JSch();
      Session session = null;
@@ -132,26 +147,30 @@ void connect(String[] remNodes){
          session.setPassword(remNodes[3]);
          session.connect();
 
+
          Channel channel = session.openChannel("sftp");
          channel.connect();
          
          ChannelSftp channelSftp = (ChannelSftp)channel;
-         channelSftp.cd("/home/cossim/COSSIM/gem5/node"+remNodes[0]+"/");
+         channelSftp.cd("/home/cossim/COSSIM/cgem5/node"+remNodes[0]+"/");
          
          ChannelSftp sftpChannel = (ChannelSftp) channel;
          Vector<ChannelSftp.LsEntry> list = channelSftp.ls("*");
+
 
             int f = 0;
          for(ChannelSftp.LsEntry entry : list) {
          	f+=1;
             System.out.println("Downloading file: "+f+". " +entry.getFilename());
-         	channelSftp.get(entry.getFilename(), "/home/cossim/COSSIM/gem5/node"+remNodes[0]+"/" + entry.getFilename());
+         	channelSftp.get(entry.getFilename(), "/home/cossim/COSSIM/cgem5/node"+remNodes[0]+"/" + entry.getFilename());
          }
 
+
          
-         channelSftp.cd("/home/cossim/COSSIM/gem5/McPat/");
-         channelSftp.get("energy"+remNodes[0]+".txt","/home/cossim/COSSIM/gem5/McPat/energy"+remNodes[0]+".txt");
-         channelSftp.get("mcpatOutput"+remNodes[0]+".txt","/home/cossim/COSSIM/gem5/McPat/mcpatOutput"+remNodes[0]+".txt");
+         channelSftp.cd("/home/cossim/COSSIM/cgem5/McPat/");
+         channelSftp.get("energy"+remNodes[0]+".txt","/home/cossim/COSSIM/cgem5/McPat/energy"+remNodes[0]+".txt");
+         channelSftp.get("mcpatOutput"+remNodes[0]+".txt","/home/cossim/COSSIM/cgem5/McPat/mcpatOutput"+remNodes[0]+".txt");
+
 
          System.out.println("DONE..");
          channelSftp.exit();
@@ -162,6 +181,8 @@ void connect(String[] remNodes){
          e.printStackTrace();
      }
 }
+
+
 
 
 protected Control createDialogArea(final Composite parent) {
@@ -175,12 +196,15 @@ protected Control createDialogArea(final Composite parent) {
 	final ProgressBar bar = new ProgressBar(container, SWT.SMOOTH);
 	bar.setLayoutData( new GridData( SWT.FILL, SWT.CENTER, true, true ) );
 
+
 	Point preferredSize = bar.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 	int width = preferredSize.x +100;
 	int height = preferredSize.y - 9;
 
+
 bar.setSize(width, height);
 bar.setSelection(0); 
+
 
     bar.setMaximum(100);
     final int maximum = bar.getMaximum();
@@ -190,6 +214,7 @@ bar.setSelection(0);
 	for(int o=0;o<nodes.length;o++){
 		nodes[o] = Integer.parseInt(remoteNodes4getRes()[o][0]);
 	}
+
 
     final int b = maximum/nodes.length;
     final double b1 = (double)maximum/(double)nodes.length;
@@ -205,6 +230,7 @@ bar.setSelection(0);
        
           for (final int i : nodes) {
 
+
             if (container.getDisplay().isDisposed())
               return;
             container.getDisplay().asyncExec(new Runnable() {
@@ -212,7 +238,7 @@ bar.setSelection(0);
               public void run() {
                 if (bar.isDisposed())
                   return;
-                File file = new File("/home/cossim/COSSIM/gem5/node"+i);
+                File file = new File("/home/cossim/COSSIM/cgem5/node"+i);
       		  if (!file.exists()) {
       	            if (file.mkdir()) {
       	               // System.out.println("Directory is created!");
@@ -252,6 +278,7 @@ bar.setSelection(0);
           }
         });
 
+
     
 	return container;
 }
@@ -264,5 +291,6 @@ protected void configureShell(Shell newShell) {
         super.configureShell(newShell);
         newShell.setText("Downloading results for remote nodes");
 }
+
 
 }

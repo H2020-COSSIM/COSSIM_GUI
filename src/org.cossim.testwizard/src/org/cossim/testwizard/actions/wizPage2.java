@@ -32,7 +32,7 @@ public class wizPage2 extends WizardPage {
 	private String[][] obj;
 	private int[] start;
 
-	final String[] proc = { "ARM-32", "ARM-64", "x86" };
+	final String[] proc = { "RISC-V", "ARM-64", "x86" };
 
 	public wizPage2(wizVal values) {
 		super("Clusters");
@@ -47,12 +47,12 @@ public class wizPage2 extends WizardPage {
 	4  β†’ Proc						(OK)			(String)
 	5  β†’ kernel					(OK)			(String)				
 	6  β†’ disk-image				(OK)			(String)
-	7  β†’ mem-size					(OK)			(int 512 - 4096)
+	7  β†’ mem-size					(OK)			(int 2048 - 8192)
 	8  β†’ SyncTime					(OK)			(int)
 	9  β†’ SyncTime time unit		(OK)			(String)
 	10  β†’ PacketTime 				(OK)			(int)				
 	11 β†’ PacketTime time unit		(OK)			(String)
-	12 β†’ machine-type 			(OK)			(String)			
+	12 β†’ ConfigPath 				(OK)			(String)		
 	13 β†’ dtb						(OK)			(String)
 	14 β†’ script path				(OK)			(String)
 	15 β†’ IP										(String)
@@ -87,7 +87,7 @@ public class wizPage2 extends WizardPage {
 
 	public void createp2(Composite composite_2, ScrolledComposite sc, Composite container){
 	
-			 int[] clnod = new int[values.gettotNodes()];		
+			int[] clnod = new int[values.gettotNodes()];		
 
      		int[] clnod1 = new int[values.gettotNodes() - values.gettotCl()+1];  //Save nodes for the next clusters
      	

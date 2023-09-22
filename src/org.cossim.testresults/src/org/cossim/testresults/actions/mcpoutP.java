@@ -1,5 +1,6 @@
 package org.cossim.testresults.actions;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,6 +11,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 public class mcpoutP {
 	checkExist ce = new checkExist();
 	
@@ -17,6 +19,7 @@ public class mcpoutP {
 		file = file.substring(file.indexOf(System.getProperty("line.separator"))+1);
 		String lines[] = file.split("\\r?\\n");
 		String lines1[] = file.split("[\\r\\n]+"); // Remove empty lines
+
 
 		return lines;
 	}
@@ -40,6 +43,7 @@ public class mcpoutP {
 		}
 		int n=kk;
 
+
 		String[] st = new String[ce.nodeNum()];
 		for(int i=0;i<ce.nodeNum();i++){
 			st[i]=null;
@@ -51,6 +55,7 @@ public class mcpoutP {
 					e.printStackTrace();
 				}
 			}
+
 
 		}
 		
@@ -77,8 +82,10 @@ public class mcpoutP {
 							Pattern ptrn4 = Pattern.compile(PeakDyn);
 							Pattern ptrn5 = Pattern.compile(RuntimeDyn);
 
+
 							for(int hh=0;hh<ll1.length;hh++){
 								String[] line1 = ll1[hh].split(" = ");
+
 
 								if(ptrn1.matcher(line1[0].trim()).find()){
 									med.put(line1[0].trim(), line1[1]);
@@ -112,6 +119,8 @@ public class mcpoutP {
 		mcpoutP t1 = new mcpoutP();
 		t1.mcp();
 
+
 	}
+
 
 }

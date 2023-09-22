@@ -1,7 +1,9 @@
 package org.cossim.testresults.actions;
 
+
 import java.util.LinkedHashMap;
 import java.util.Map;
+
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.ErrorDialog;
@@ -24,13 +26,16 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 
+
 public class myRes extends Dialog {
+
 
 	protected myRes(Shell parentShell) {
 		super(parentShell);
 	}
 	dialogValues dv = new dialogValues();
 	checkExist ce = new checkExist();
+
 
 	protected Control createDialogArea(Composite parent) {
 			
@@ -75,105 +80,107 @@ public class myRes extends Dialog {
 			 GEM5Group.setLayout(new GridLayout(2, true));
 			 Map<String, String[]> temp = new LinkedHashMap<String, String[]>();
 			 temp = (Map<String, String[]>) t2.nodeDetails2().get("node"+ii);
-			 if(temp.containsKey("sim_seconds")){
-				 Label sim_seconds = new Label(GEM5Group, SWT.NONE);
-				 sim_seconds.setText(temp.get("sim_seconds")[1]+" (sim_seconds): "/*"Number of seconds simulated (sim_seconds): "*/);
-				 sim_seconds.setBounds(10, 10, 300, 30);
-				 Label sim_secondsV = new Label(GEM5Group, SWT.NONE);
-				 sim_secondsV.setText(""+temp.get("sim_seconds")[0]/*((Map) t2.nodeDetails().get("node"+ii)).get("sim_seconds")*/);
-				 sim_secondsV.setBounds(100, 10, 300, 30);
+			 if(temp.containsKey("simSeconds")){ 
+				 Label simSeconds = new Label(GEM5Group, SWT.NONE);
+				 simSeconds.setText(temp.get("simSeconds")[1]+": "/*"Number of seconds simulated (Second): "*/);
+				 simSeconds.setBounds(10, 10, 300, 30);
+				 Label simSecondsV = new Label(GEM5Group, SWT.NONE);
+				 simSecondsV.setText(""+temp.get("simSeconds")[0]/*((Map) t2.nodeDetails().get("node"+ii)).get("simSeconds")*/);
+				 simSecondsV.setBounds(100, 10, 300, 30);
 			 }
 			 
-			 if(temp.get("sim_ticks")!=null){
-				 Label sim_ticks = new Label(GEM5Group, SWT.NONE);
-				 sim_ticks.setText(temp.get("sim_ticks")[1]+" (sim_ticks): "/*"Number of ticks simulated (sim_ticks): "*/);
-				 sim_ticks.setBounds(10, 10, 300, 30);
-				 Label sim_ticksV = new Label(GEM5Group, SWT.NONE);
-				 sim_ticksV.setText(""+temp.get("sim_ticks")[0]/*((Map) t2.nodeDetails().get("node"+ii)).get("sim_ticks")*/);
-				 sim_ticksV.setBounds(100, 10, 300, 30);
+			 if(temp.get("simTicks")!=null){
+				 Label simTicks = new Label(GEM5Group, SWT.NONE);
+				 simTicks.setText(temp.get("simTicks")[1]+": "/*"# Number of ticks simulated (Tick): "*/);
+				 simTicks.setBounds(10, 10, 300, 30);
+				 Label simTicksV = new Label(GEM5Group, SWT.NONE);
+				 simTicksV.setText(""+temp.get("simTicks")[0]/*((Map) t2.nodeDetails().get("node"+ii)).get("simTicks")*/);
+				 simTicksV.setBounds(100, 10, 300, 30);
 			 }
 				 
-			 if(temp.get("final_tick")!=null){
-				 Label final_tick = new Label(GEM5Group, SWT.NONE);
+			 if(temp.get("finalTick")!=null){
+				 Label finalTick = new Label(GEM5Group, SWT.NONE);
 				 //Epeidh poly megalo to grafw edw me new line
-				 final_tick.setText(/*temp.get("final_tick")[1]*/"Number of ticks from beginning of simulation\n(restored from checkpoints and never reset)"+" (final_tick): "/*"Number of ticks from beginning of simulation (final_tick): "*/);
-				 final_tick.setBounds(10, 10, 300, 30);
-				 Label final_tickV = new Label(GEM5Group, SWT.NONE);
-				 final_tickV.setText(""+temp.get("final_tick")[0]/*((Map) t2.nodeDetails().get("node"+ii)).get("final_tick")*/);
-				 final_tickV.setBounds(100, 10, 300, 30);
+				 finalTick.setText(/*temp.get("finalTick")[1]*/"Number of ticks from beginning of simulation\n(restored from checkpoints and never reset)"+" (Tick): "/*"Number of ticks from beginning of simulation (finalTick): "*/);
+				 finalTick.setBounds(10, 10, 300, 30);
+				 Label finalTickV = new Label(GEM5Group, SWT.NONE);
+				 finalTickV.setText(""+temp.get("finalTick")[0]/*((Map) t2.nodeDetails().get("node"+ii)).get("finalTick")*/);
+				 finalTickV.setBounds(100, 10, 300, 30);
 			 }
 					 
-			 if(temp.get("sim_freq")!=null){
-				 Label sim_freq = new Label(GEM5Group, SWT.NONE);
-				 sim_freq.setText(temp.get("sim_freq")[1]+" (sim_freq): "/*"Frequency of simulated ticks (sim_freq): "*/);
-				 sim_freq.setBounds(10, 10, 300, 30);
-				 Label sim_freqV = new Label(GEM5Group, SWT.NONE);
-				 sim_freqV.setText(""+temp.get("sim_freq")[0]/*((Map) t2.nodeDetails().get("node"+ii)).get("sim_freq")*/);
-				 sim_freqV.setBounds(100, 10, 300, 30);
+			 if(temp.get("simFreq")!=null){
+				 Label simFreq = new Label(GEM5Group, SWT.NONE);
+				 simFreq.setText(temp.get("simFreq")[1]+": "/*"The number of ticks per simulated second ((Tick/Second)): "*/);
+				 simFreq.setBounds(10, 10, 300, 30);
+				 Label simFreqV = new Label(GEM5Group, SWT.NONE);
+				 simFreqV.setText(""+temp.get("simFreq")[0]/*((Map) t2.nodeDetails().get("node"+ii)).get("simFreq")*/);
+				 simFreqV.setBounds(100, 10, 300, 30);
+			 }	
+			 
+			 if(temp.get("hostSeconds")!=null){
+				 Label hostSeconds = new Label(GEM5Group, SWT.NONE);
+				 hostSeconds.setText(temp.get("hostSeconds")[1]+": "/*"Real time elapsed on the host (Second): "*/);
+				 hostSeconds.setBounds(10, 10, 300, 30);
+				 Label hostSecondsV = new Label(GEM5Group, SWT.NONE);
+				 hostSecondsV.setText(""+temp.get("hostSeconds")[0]/*((Map) t2.nodeDetails().get("node"+ii)).get("hostSeconds")*/);
+				 hostSecondsV.setBounds(100, 10, 300, 30);
 			 }
-						 
-			 if(temp.get("host_inst_rate")!=null){
-				 Label host_inst_rate = new Label(GEM5Group, SWT.NONE);
-				 host_inst_rate.setText(temp.get("host_inst_rate")[1]+" (host_inst_rate): "/*"Simulator instruction rate (inst/s) (host_inst_rate): "*/);
-				 host_inst_rate.setBounds(10, 10, 300, 30);
-				 Label host_inst_rateV = new Label(GEM5Group, SWT.NONE);
-				 host_inst_rateV.setText(""+temp.get("host_inst_rate")[0]/*((Map) t2.nodeDetails().get("node"+ii)).get("host_inst_rate")*/);
-				 host_inst_rateV.setBounds(100, 10, 300, 30);
+			 
+			 if(temp.get("hostTickRate")!=null){
+				 Label hostTickRate = new Label(GEM5Group, SWT.NONE);
+				 hostTickRate.setText(temp.get("hostTickRate")[1]+": "/*"The number of ticks simulated per host second (ticks/s) ((Tick/Second)): "*/); 
+				 hostTickRate.setBounds(10, 10, 300, 30);
+				 Label hostTickRateV = new Label(GEM5Group, SWT.NONE);
+				 hostTickRateV.setText(""+temp.get("hostTickRate")[0]/*((Map) t2.nodeDetails().get("node"+ii)).get("hostTickRate")*/);
+				 hostTickRateV.setBounds(100, 10, 300, 30);
 			 }
-						 
-			 if(temp.get("host_op_rate")!=null){
-				 Label host_op_rate = new Label(GEM5Group, SWT.NONE);
-				 host_op_rate.setText(temp.get("host_op_rate")[1]+" (host_op_rate): "/*"imulator op (including micro ops) rate (op/s) (host_op_rate): "*/);
-				 host_op_rate.setBounds(10, 10, 300, 30);
-				 Label host_op_rateV = new Label(GEM5Group, SWT.NONE);
-				 host_op_rateV.setText(""+temp.get("host_op_rate")[0]/*((Map) t2.nodeDetails().get("node"+ii)).get("host_op_rate")*/);
-				 host_op_rateV.setBounds(100, 10, 300, 30);
-			 }
-						 
-			 if(temp.get("host_tick_rate")!=null){
-				 Label host_tick_rate = new Label(GEM5Group, SWT.NONE);
-				 host_tick_rate.setText(temp.get("host_tick_rate")[1]+" (host_inst_rate): "/*"Simulator tick rate (ticks/s) (host_tick_rate): "*/);
-				 host_tick_rate.setBounds(10, 10, 300, 30);
-				 Label host_tick_rateV = new Label(GEM5Group, SWT.NONE);
-				 host_tick_rateV.setText(""+temp.get("host_tick_rate")[0]/*((Map) t2.nodeDetails().get("node"+ii)).get("host_tick_rate")*/);
-				 host_tick_rateV.setBounds(100, 10, 300, 30);
-			 }
-			 			 
-			 if(temp.get("host_mem_usage")!=null){
-				 Label host_mem_usage = new Label(GEM5Group, SWT.NONE);
-				 host_mem_usage.setText(temp.get("host_mem_usage")[1]+" (host_mem_usage): "/*"Number of bytes of host memory used (host_mem_usage): "*/);
-				 host_mem_usage.setBounds(10, 10, 300, 30);
-				 Label host_mem_usageV = new Label(GEM5Group, SWT.NONE);
-				 host_mem_usageV.setText(""+temp.get("host_mem_usage")[0]/*((Map) t2.nodeDetails().get("node"+ii)).get("host_mem_usage")*/);
-				 host_mem_usageV.setBounds(10, 10, 300, 30);
-			 }
-			 		 
-			 if(temp.get("host_seconds")!=null){
-				 Label host_seconds = new Label(GEM5Group, SWT.NONE);
-				 host_seconds.setText(temp.get("host_seconds")[1]+" (host_seconds): "/*"Real time elapsed on the host (host_seconds): "*/);
-				 host_seconds.setBounds(10, 10, 300, 30);
-				 Label host_secondsV = new Label(GEM5Group, SWT.NONE);
-				 host_secondsV.setText(""+temp.get("host_seconds")[0]/*((Map) t2.nodeDetails().get("node"+ii)).get("host_seconds")*/);
-				 host_secondsV.setBounds(100, 10, 300, 30);
-			 }
-						 
-			 if(temp.get("sim_insts")!=null){
-				 Label sim_insts = new Label(GEM5Group, SWT.NONE);
-				 sim_insts.setText(temp.get("sim_insts")[1]+" (sim_insts): "/*"Number of instructions simulated (sim_insts): "*/);
-				 sim_insts.setBounds(10, 10, 300, 30);
-				 Label sim_instsV = new Label(GEM5Group, SWT.NONE);
-				 sim_instsV.setText(""+temp.get("sim_insts")[0]/*((Map) t2.nodeDetails().get("node"+ii)).get("sim_insts")*/);
-				 sim_instsV.setBounds(100, 10, 300, 30);
+			 
+			 if(temp.get("hostMemory")!=null){
+				 Label hostMemory = new Label(GEM5Group, SWT.NONE);
+				 hostMemory.setText(temp.get("hostMemory")[1]+": "/*"Number of bytes of host memory used (Byte): "*/);
+				 hostMemory.setBounds(10, 10, 300, 30);
+				 Label hostMemoryV = new Label(GEM5Group, SWT.NONE);
+				 hostMemoryV.setText(""+temp.get("hostMemory")[0]/*((Map) t2.nodeDetails().get("node"+ii)).get("hostMemory")*/);
+				 hostMemoryV.setBounds(10, 10, 300, 30);
 			 }
 			 			 
-			 if(temp.get("sim_ops")!=null){
-				 Label sim_ops = new Label(GEM5Group, SWT.NONE);
-				 sim_ops.setText(temp.get("sim_ops")[1]+" (sim_ops): "/*"Number of ops (including micro ops) simulated (sim_ops): "*/);
-				 sim_ops.setBounds(10, 10, 300, 30);
-				 Label sim_opsV = new Label(GEM5Group, SWT.NONE);
-				 sim_opsV.setText(""+temp.get("sim_ops")[0]/*((Map) t2.nodeDetails().get("node"+ii)).get("sim_ops")*/);
-				 sim_opsV.setBounds(100, 10, 300, 30);
+			 if(temp.get("simInsts")!=null){
+				 Label simInsts = new Label(GEM5Group, SWT.NONE);
+				 simInsts.setText(temp.get("simInsts")[1]+": "/*"Number of instructions simulated (Count): "*/);
+				 simInsts.setBounds(10, 10, 300, 30);
+				 Label simInstsV = new Label(GEM5Group, SWT.NONE);
+				 simInstsV.setText(""+temp.get("simInsts")[0]/*((Map) t2.nodeDetails().get("node"+ii)).get("simInsts")*/);
+				 simInstsV.setBounds(100, 10, 300, 30);
 			 }
+			 			 
+			 if(temp.get("simOps")!=null){
+				 Label simOps = new Label(GEM5Group, SWT.NONE);
+				 simOps.setText(temp.get("simOps")[1]+": "/*"Number of ops (including micro ops) simulated (Count): "*/);
+				 simOps.setBounds(10, 10, 300, 30);
+				 Label simOpsV = new Label(GEM5Group, SWT.NONE);
+				 simOpsV.setText(""+temp.get("simOps")[0]/*((Map) t2.nodeDetails().get("node"+ii)).get("simOps")*/);
+				 simOpsV.setBounds(100, 10, 300, 30);
+			 }
+			 
+			 if(temp.get("hostInstRate")!=null){
+				 Label hostInstRate = new Label(GEM5Group, SWT.NONE);
+				 hostInstRate.setText(temp.get("hostInstRate")[1]+": "/*"Simulator instruction rate (inst/s) ((Count/Second)): "*/);
+				 hostInstRate.setBounds(10, 10, 300, 30);
+				 Label hostInstRateV = new Label(GEM5Group, SWT.NONE);
+				 hostInstRateV.setText(""+temp.get("hostInstRate")[0]/*((Map) t2.nodeDetails().get("node"+ii)).get("hostInstRate")*/);
+				 hostInstRateV.setBounds(100, 10, 300, 30);
+			 }
+						 
+			 if(temp.get("hostOpRate")!=null){
+				 Label hostOpRate = new Label(GEM5Group, SWT.NONE);
+				 hostOpRate.setText(temp.get("hostOpRate")[1]+": "/*"Simulator op (including micro ops) rate (op/s) ((Count/Second)): "*/); 
+				 hostOpRate.setBounds(10, 10, 300, 30);
+				 Label hostOpRateV = new Label(GEM5Group, SWT.NONE);
+				 hostOpRateV.setText(""+temp.get("hostOpRate")[0]/*((Map) t2.nodeDetails().get("node"+ii)).get("hostOpRate")*/);
+				 hostOpRateV.setBounds(100, 10, 300, 30);
+			 }
+			
+			 
 			 			 
 			 if(ce.findEnMc()[ii]){
 				 //McPat
@@ -232,6 +239,7 @@ public class myRes extends Dialog {
 				 RuntimeDynamicV.setText(""+((Map) t4.mcp().get("node"+ii)).get("Runtime Dynamic"));
 				 RuntimeDynamicV.setBounds(140, 130, 300, 30);
 			 }
+
 
 			
 			 

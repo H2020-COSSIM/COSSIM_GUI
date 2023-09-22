@@ -1,7 +1,9 @@
 package org.cossim.testresults.actions;
 
+
 import java.io.File;
 import java.io.IOException;
+
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -29,6 +31,7 @@ public class SampleAction implements IWorkbenchWindowActionDelegate {
 	 */
 	public SampleAction() {
 	}
+
 
 	/**
 	 * The action has been activated. The argument of the
@@ -73,6 +76,7 @@ public class SampleAction implements IWorkbenchWindowActionDelegate {
 			
 		}
 
+
 		if(remNum!=0 & runSHExist){
 			dialog5.create();
 			dialog5.open();
@@ -81,7 +85,9 @@ public class SampleAction implements IWorkbenchWindowActionDelegate {
 		dialog1.create();
 		dialog1.open();
 
+
 	}
+
 
 	/**
 	 * Selection in the workbench has been changed. We 
@@ -93,6 +99,7 @@ public class SampleAction implements IWorkbenchWindowActionDelegate {
 	public void selectionChanged(IAction action, ISelection selection) {
 	}
 
+
 	/**
 	 * We can use this method to dispose of any system
 	 * resources we previously allocated.
@@ -100,6 +107,7 @@ public class SampleAction implements IWorkbenchWindowActionDelegate {
 	 */
 	public void dispose() {
 	}
+
 
 	/**
 	 * We will cache window object in order to

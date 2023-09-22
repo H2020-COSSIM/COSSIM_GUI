@@ -1,11 +1,13 @@
 package org.cossim.testresults.actions;
 
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.ErrorDialog;
@@ -37,6 +39,8 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 
 
+
+
 public class myComp extends Dialog{
 	private Label[] Lblnds;
 	private Label[] Cnv;
@@ -47,6 +51,7 @@ public class myComp extends Dialog{
 	}
 	dialogValues dv = new dialogValues();
 	checkExist ce = new checkExist();
+
 
 	protected Control createDialogArea(Composite parent) {
 		
@@ -74,6 +79,7 @@ public class myComp extends Dialog{
 		return container;
 	}
 
+
 	void createP(int[] nodeN,boolean[] G, boolean M[], Composite container){
 		statsP t2 = new statsP();
 		energyP t3 = new energyP();
@@ -81,8 +87,8 @@ public class myComp extends Dialog{
 		
 		int tabsG = 0;
 		int tabsM = 0;
-		String[] GEM5Attrs = {"sim_seconds", "sim_ticks", "finals_tick", "sim_freq",
-				"host_inst_rate","host_op_rate","host_tick_rate","host_mem_usage","host_seconds","sim_inst","sim_ops"};
+		String[] GEM5Attrs = {"simSeconds", "simTicks", "finalTick", "simFreq",
+				"hostInstRate","hostOpRate","hostTickRate","hostMemory","hostSeconds","simInsts","simOps"};
 		String[] McPatAttrs = {"Runtime","Energy","Area","Peak Power","Total Leakage","Peak Dynamic","Runtime Dynamic"};
 		int nodeNum = dv.nodeNum;
 		
@@ -102,6 +108,7 @@ public class myComp extends Dialog{
 			totTabs[i] = i;
 		}
 
+
 		String[] tabNamesG = new String[tabsG];
 		int inG=0;
 		for(int i=0;i<G.length;i++){
@@ -119,6 +126,7 @@ public class myComp extends Dialog{
 			}
 		}
 
+
 		final String[] tabs = new String[ll];
 		for(int i=0;i<ll;i++){
 			if(i<tabsG){
@@ -127,6 +135,7 @@ public class myComp extends Dialog{
 				tabs[i] = tabNamesM[i-tabsG];
 			}
 		}
+
 
 		Lblnds = new Label[nodeN.length];
 		Cnv = new Label[nodeN.length];
@@ -145,17 +154,17 @@ public class myComp extends Dialog{
 		
 		
 		Map<String, String> Lab1 = new LinkedHashMap<String, String>();
-			Lab1.put("sim_seconds", Lab[0]);
-			Lab1.put("sim_ticks", Lab[1]);
-			Lab1.put("finals_tick", Lab[2]);
-			Lab1.put("sim_freq", Lab[3]);
-			Lab1.put("host_inst_rate", Lab[4]);
-			Lab1.put("host_op_rate", Lab[5]);
-			Lab1.put("host_tick_rate", Lab[6]);
-			Lab1.put("host_mem_usage", Lab[7]);
-			Lab1.put("host_seconds", Lab[8]);
-			Lab1.put("sim_inst", Lab[9]);
-			Lab1.put("sim_ops", Lab[10]);
+			Lab1.put("simSeconds", Lab[0]);
+			Lab1.put("simTicks", Lab[1]);
+			Lab1.put("finalTick", Lab[2]); 
+			Lab1.put("simFreq", Lab[3]);
+			Lab1.put("hostInstRate", Lab[4]);
+			Lab1.put("hostOpRate", Lab[5]);
+			Lab1.put("hostTickRate", Lab[6]);
+			Lab1.put("hostMemory", Lab[7]);
+			Lab1.put("hostSeconds", Lab[8]);
+			Lab1.put("simInsts", Lab[9]); 
+			Lab1.put("simOps", Lab[10]);
 			Lab1.put("Runtime", Lab[11]);
 			Lab1.put("Energy", Lab[12]);
 			Lab1.put("Area", Lab[13]);
@@ -177,17 +186,18 @@ public class myComp extends Dialog{
 				cont.setLayout(contLayout);
 				cont.setBackground(cont.getShell().getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
 
-				double[] sim_seconds = new double[nodeN.length];  
-				double[] sim_ticks = new double[nodeN.length];
-				double[] final_tick = new double[nodeN.length];
-				double[] sim_freq = new double[nodeN.length];
-				double[] host_inst_rate = new double[nodeN.length];
-				double[] host_op_rate = new double[nodeN.length];
-				double[] host_tick_rate = new double[nodeN.length];
-				double[] host_mem_usage = new double[nodeN.length];
-				double[] host_seconds = new double[nodeN.length];
-				double[] sim_insts = new double[nodeN.length];
-				double[] sim_ops = new double[nodeN.length];
+
+				double[] simSeconds = new double[nodeN.length];  
+				double[] simTicks = new double[nodeN.length];
+				double[] finalTick = new double[nodeN.length];
+				double[] simFreq = new double[nodeN.length];
+				double[] hostInstRate = new double[nodeN.length];
+				double[] hostOpRate = new double[nodeN.length];
+				double[] hostTickRate = new double[nodeN.length];
+				double[] hostMemory = new double[nodeN.length];
+				double[] hostSeconds = new double[nodeN.length];
+				double[] simInsts = new double[nodeN.length];
+				double[] simOps = new double[nodeN.length];
 				double[] runtime = new double[nodeN.length];
 				double[] energy = new double[nodeN.length];
 				double[] area = new double[nodeN.length];
@@ -199,17 +209,17 @@ public class myComp extends Dialog{
 				int index1 = 0;
 				for(int nn : nodeN){
 					tempV = (Map<String, String[]>) t2.nodeDetails2().get("node"+nn);
-					 sim_seconds[index1] =  Double.parseDouble(tempV.get("sim_seconds")[0]/*(String) ((Map) t2.nodeDetails().get("node"+nn)).get("sim_seconds")*/);  
-					 sim_ticks[index1] =  Double.parseDouble(tempV.get("sim_ticks")[0]/*(String) ((Map) t2.nodeDetails().get("node"+nn)).get("sim_ticks")*/);
-					 final_tick[index1] = Double.parseDouble(tempV.get("final_tick")[0]/*(String) ((Map) t2.nodeDetails().get("node"+nn)).get("final_tick")*/);
-					 sim_freq[index1] = Double.parseDouble(tempV.get("sim_freq")[0]/*(String) ((Map) t2.nodeDetails().get("node"+nn)).get("sim_freq")*/);
-					 host_inst_rate[index1] = Double.parseDouble(tempV.get("host_inst_rate")[0]/*(String) ((Map) t2.nodeDetails().get("node"+nn)).get("host_inst_rate")*/);
-					 host_op_rate[index1] = Double.parseDouble(tempV.get("host_op_rate")[0]/*(String) ((Map) t2.nodeDetails().get("node"+nn)).get("host_op_rate")*/);
-					 host_tick_rate[index1] = Double.parseDouble(tempV.get("host_tick_rate")[0]/*(String) ((Map) t2.nodeDetails().get("node"+nn)).get("host_tick_rate")*/);
-					 host_mem_usage[index1] = Double.parseDouble(tempV.get("host_mem_usage")[0]/*(String) ((Map) t2.nodeDetails().get("node"+nn)).get("host_mem_usage")*/);
-					 host_seconds[index1] = Double.parseDouble(tempV.get("host_seconds")[0]/*(String) ((Map) t2.nodeDetails().get("node"+nn)).get("host_seconds")*/);
-					 sim_insts[index1] = Double.parseDouble(tempV.get("sim_insts")[0]/*(String) ((Map) t2.nodeDetails().get("node"+nn)).get("sim_insts")*/);
-					 sim_ops[index1] = Double.parseDouble(tempV.get("sim_ops")[0]/*(String) ((Map) t2.nodeDetails().get("node"+nn)).get("sim_ops")*/);
+					 simSeconds[index1] =  Double.parseDouble(tempV.get("simSeconds")[0]/*(String) ((Map) t2.nodeDetails().get("node"+nn)).get("simSeconds")*/);  
+					 simTicks[index1] =  Double.parseDouble(tempV.get("simTicks")[0]/*(String) ((Map) t2.nodeDetails().get("node"+nn)).get("simTicks")*/);
+					 finalTick[index1] = Double.parseDouble(tempV.get("finalTick")[0]/*(String) ((Map) t2.nodeDetails().get("node"+nn)).get("finalTick")*/);
+					 simFreq[index1] = Double.parseDouble(tempV.get("simFreq")[0]/*(String) ((Map) t2.nodeDetails().get("node"+nn)).get("simFreq")*/);
+					 hostInstRate[index1] = Double.parseDouble(tempV.get("hostInstRate")[0]/*(String) ((Map) t2.nodeDetails().get("node"+nn)).get("hostInstRate")*/);
+					 hostOpRate[index1] = Double.parseDouble(tempV.get("hostOpRate")[0]/*(String) ((Map) t2.nodeDetails().get("node"+nn)).get("hostOpRate")*/);
+					 hostTickRate[index1] = Double.parseDouble(tempV.get("hostTickRate")[0]/*(String) ((Map) t2.nodeDetails().get("node"+nn)).get("hostTickRate")*/);
+					 hostMemory[index1] = Double.parseDouble(tempV.get("hostMemory")[0]/*(String) ((Map) t2.nodeDetails().get("node"+nn)).get("hostMemory")*/);
+					 hostSeconds[index1] = Double.parseDouble(tempV.get("hostSeconds")[0]/*(String) ((Map) t2.nodeDetails().get("node"+nn)).get("hostSeconds")*/);
+					 simInsts[index1] = Double.parseDouble(tempV.get("simInsts")[0]/*(String) ((Map) t2.nodeDetails().get("node"+nn)).get("simInsts")*/);
+					 simOps[index1] = Double.parseDouble(tempV.get("simOps")[0]/*(String) ((Map) t2.nodeDetails().get("node"+nn)).get("simOps")*/);
 					 if(ce.findEnMc()[nn]){
 						 
 						 String[] oo = (String[]) t3.runEn().get("node"+nn);
@@ -240,18 +250,19 @@ public class myComp extends Dialog{
 						index1++;
 				}
 
+
 				int res = 850;  			// To mege8os thw mparas
-				double sim_secondsM = maxD(sim_seconds)/res;  
-				double sim_ticksM = maxD(sim_ticks)/res;
-				double final_tickM = maxD(final_tick)/res;
-				double sim_freqM = maxD(sim_freq)/res;
-				double host_inst_rateM = maxD(host_inst_rate)/res;
-				double host_op_rateM = maxD(host_op_rate)/res;
-				double host_tick_rateM = maxD(host_tick_rate)/res;
-				double host_mem_usageM = maxD(host_mem_usage)/res;
-				double host_secondsM = maxD(host_seconds)/res;
-				double sim_instsM = maxD(sim_insts)/res;
-				double sim_opsM = maxD(sim_ops)/res;
+				double simSecondsM = maxD(simSeconds)/res;  
+				double simTicksM = maxD(simTicks)/res;
+				double finalTickM = maxD(finalTick)/res;
+				double simFreqM = maxD(simFreq)/res;
+				double hostInstRateM = maxD(hostInstRate)/res;
+				double hostOpRateM = maxD(hostOpRate)/res;
+				double hostTickRateM = maxD(hostTickRate)/res;
+				double hostMemoryM = maxD(hostMemory)/res;
+				double hostSecondsM = maxD(hostSeconds)/res;
+				double simInstsM = maxD(simInsts)/res;
+				double simOpsM = maxD(simOps)/res;
 				double runtimeM = maxD(runtime)/res;
 				double energyM = maxD(energy)/res;
 				double areaM = maxD(area)/res;
@@ -260,17 +271,17 @@ public class myComp extends Dialog{
 				double peak_dynamicM = maxD(peak_dynamic)/res;
 				double runtime_dynamicM = maxD(runtime_dynamic)/res;
 	
-				double[] sim_secondsN = new double[nodeN.length];  
-				double[] sim_ticksN = new double[nodeN.length];
-				double[] final_tickN = new double[nodeN.length];
-				double[] sim_freqN = new double[nodeN.length];
-				double[] host_inst_rateN = new double[nodeN.length];
-				double[] host_op_rateN = new double[nodeN.length];
-				double[] host_tick_rateN = new double[nodeN.length];
-				double[] host_mem_usageN = new double[nodeN.length];
-				double[] host_secondsN = new double[nodeN.length];
-				double[] sim_instsN = new double[nodeN.length];
-				double[] sim_opsN = new double[nodeN.length];
+				double[] simSecondsN = new double[nodeN.length];  
+				double[] simTicksN = new double[nodeN.length];
+				double[] finalTickN = new double[nodeN.length];
+				double[] simFreqN = new double[nodeN.length];
+				double[] hostInstRateN = new double[nodeN.length];
+				double[] hostOpRateN = new double[nodeN.length];
+				double[] hostTickRateN = new double[nodeN.length];
+				double[] hostMemoryN = new double[nodeN.length];
+				double[] hostSecondsN = new double[nodeN.length];
+				double[] simInstsN = new double[nodeN.length];
+				double[] simOpsN = new double[nodeN.length];
 				double[] runtimeN = new double[nodeN.length];
 				double[] energyN = new double[nodeN.length];
 				double[] areaN = new double[nodeN.length];
@@ -279,17 +290,17 @@ public class myComp extends Dialog{
 				double[] peak_dynamicN = new double[nodeN.length];
 				double[] runtime_dynamicN = new double[nodeN.length];
 				
-				sim_secondsN = divM(sim_seconds, sim_secondsM);
-				sim_ticksN = divM(sim_ticks, sim_ticksM);
-				final_tickN = divM(final_tick, final_tickM);
-				sim_freqN = divM(sim_freq, sim_freqM);
-				host_inst_rateN = divM(host_inst_rate, host_inst_rateM);
-				host_op_rateN = divM(host_op_rate, host_op_rateM);
-				host_tick_rateN = divM(host_tick_rate, host_tick_rateM);
-				host_mem_usageN = divM(host_mem_usage, host_mem_usageM);
-				host_secondsN = divM(host_seconds, host_secondsM);
-				sim_instsN = divM(sim_insts, sim_instsM);
-				sim_opsN = divM(sim_ops, sim_opsM);
+				simSecondsN = divM(simSeconds, simSecondsM);
+				simTicksN = divM(simTicks, simTicksM);
+				finalTickN = divM(finalTick, finalTickM);
+				simFreqN = divM(simFreq, simFreqM);
+				hostInstRateN = divM(hostInstRate, hostInstRateM);
+				hostOpRateN = divM(hostOpRate, hostOpRateM);
+				hostTickRateN = divM(hostTickRate, hostTickRateM);
+				hostMemoryN = divM(hostMemory, hostMemoryM);
+				hostSecondsN = divM(hostSeconds, hostSecondsM);
+				simInstsN = divM(simInsts, simInstsM);
+				simOpsN = divM(simOps, simOpsM);
 				runtimeN = divM(runtime, runtimeM);
 				energyN = divM(energy, energyM);
 				areaN = divM(area, areaM);
@@ -299,17 +310,17 @@ public class myComp extends Dialog{
 				runtime_dynamicN = divM(runtime_dynamic, runtime_dynamicM);
 				
 				final Map<String, double[]> attrV = new LinkedHashMap<String, double[]>();
-				attrV.put("sim_seconds", sim_secondsN);
-				attrV.put("sim_ticks", sim_ticksN);
-				attrV.put("finals_tick", final_tickN);
-				attrV.put("sim_freq", sim_freqN);
-				attrV.put("host_inst_rate", host_inst_rateN);
-				attrV.put("host_op_rate", host_op_rateN);
-				attrV.put("host_tick_rate", host_tick_rateN);
-				attrV.put("host_mem_usage", host_mem_usageN);
-				attrV.put("host_seconds", host_secondsN);
-				attrV.put("sim_inst", sim_instsN);
-				attrV.put("sim_ops", sim_opsN);
+				attrV.put("simSeconds", simSecondsN);
+				attrV.put("simTicks", simTicksN);
+				attrV.put("finalTick", finalTickN); 
+				attrV.put("simFreq", simFreqN);
+				attrV.put("hostInstRate", hostInstRateN);
+				attrV.put("hostOpRate", hostOpRateN);
+				attrV.put("hostTickRate", hostTickRateN);
+				attrV.put("hostMemory", hostMemoryN);
+				attrV.put("hostSeconds", hostSecondsN);
+				attrV.put("simInsts", simInstsN); 
+				attrV.put("simOps", simOpsN);
 				attrV.put("Runtime", runtimeN);
 				attrV.put("Energy", energyN);
 				attrV.put("Area", areaN);
@@ -319,17 +330,17 @@ public class myComp extends Dialog{
 				attrV.put("Runtime Dynamic", runtime_dynamicN);
 				
 				final Map<String, double[]> attrV2 = new LinkedHashMap<String, double[]>();
-				attrV2.put("sim_seconds", sim_seconds);
-				attrV2.put("sim_ticks", sim_ticks);
-				attrV2.put("finals_tick", final_tick);
-				attrV2.put("sim_freq", sim_freq);
-				attrV2.put("host_inst_rate", host_inst_rate);
-				attrV2.put("host_op_rate", host_op_rate);
-				attrV2.put("host_tick_rate", host_tick_rate);
-				attrV2.put("host_mem_usage", host_mem_usage);
-				attrV2.put("host_seconds", host_seconds);
-				attrV2.put("sim_inst", sim_insts);
-				attrV2.put("sim_ops", sim_ops);
+				attrV2.put("simSeconds", simSeconds);
+				attrV2.put("simTicks", simTicks);
+				attrV2.put("finalTick", finalTick); 
+				attrV2.put("simFreq", simFreq);
+				attrV2.put("hostInstRate", hostInstRate);
+				attrV2.put("hostOpRate", hostOpRate);
+				attrV2.put("hostTickRate", hostTickRate);
+				attrV2.put("hostMemory", hostMemory);
+				attrV2.put("hostSeconds", hostSeconds);
+				attrV2.put("simInsts", simInsts); 
+				attrV2.put("simOps", simOps);
 				attrV2.put("Runtime", runtime);
 				attrV2.put("Energy", energy);
 				attrV2.put("Area", area);
@@ -337,6 +348,7 @@ public class myComp extends Dialog{
 				attrV2.put("Total Leakage", total_leakage);
 				attrV2.put("Peak Dynamic", peak_dynamic);
 				attrV2.put("Runtime Dynamic", runtime_dynamic);
+
 
 				expl = new Label(cont, SWT.NONE);
 				expl.setLayoutData(new GridData(SWT.FILL,	SWT.BEGINNING, false, false, 6, 1));
@@ -371,11 +383,13 @@ public class myComp extends Dialog{
 					    }
 					});
 
+
 					Data[index2] = new Label(cont, SWT.NULL);
 					if(attrV.get(tabs[iii])[kk]>=0){
 						Data[kk].setText(""+attrV2.get(tabs[ii])[kk]);
 				       }else{
 				    	   Data[index2].setText("No Data..");
+
 
 				       }
 					index2++;
@@ -432,5 +446,6 @@ public class myComp extends Dialog{
 	    protected Point getInitialSize() {
 	            return new Point(1100, 70*dv.nodeNum);
 	    }
+
 
 }

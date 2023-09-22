@@ -1,5 +1,6 @@
 package org.cossim.testresults.actions;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,8 +11,10 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 public class energyP {
 	checkExist ce = new checkExist();
+
 
 	String[] getLines(String file){
 		file = file.substring(file.indexOf(System.getProperty("line.separator"))+1);
@@ -49,6 +52,7 @@ public class energyP {
 				}
 			}
 
+
 		}
 		for(int tt=0;tt<ce.nodeNum();tt++){ //Runtime for all nodes
 			if(ce.findEnMc()[tt]){
@@ -77,6 +81,8 @@ public class energyP {
 		energyP t1 = new energyP();
 		t1.runEn();
 
+
 	}
+
 
 }

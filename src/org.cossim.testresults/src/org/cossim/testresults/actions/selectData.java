@@ -1,8 +1,10 @@
 package org.cossim.testresults.actions;
 
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -21,6 +23,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+
 
 public class selectData extends Dialog {
 	private Button AllNodes;
@@ -187,6 +190,8 @@ public class selectData extends Dialog {
 	}
 
 
+
+
 	protected boolean isResizable() {
 	    return true;
 	}
@@ -195,6 +200,8 @@ public class selectData extends Dialog {
             super.configureShell(newShell);
             newShell.setText("Select Action");
     }
+
+
 
 
 }

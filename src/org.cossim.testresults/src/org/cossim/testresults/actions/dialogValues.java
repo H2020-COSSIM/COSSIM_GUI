@@ -1,5 +1,6 @@
 package org.cossim.testresults.actions;
 
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -7,13 +8,16 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 public class dialogValues {
+
 
 	static boolean allNodes1 = true;		//Gia node details. An true --> All nodes, An false --> node Selection
 	static boolean allNodes2 = true;		//Gia compare node values. An true --> All 
 	static String s1 = "";					//Gia show nodes
 	static String s2 = "";					//Gia compare nodes
-	String runFile = "";					//Gia na mpei o arxeio run - configuration (isws de xreiazetai)
+	String runFile = "";					//Gia na mpei to arxeio run - configuration (isws de xreiazetai)
+
 
 	static int maxParsed;
 	static statsP t2 = new statsP();
@@ -40,6 +44,7 @@ public class dialogValues {
 		dialogValues.attrG[i] = vv;
 	}
 
+
 	//private static boolean[] attrM = new boolean[7];
 	private static boolean[] attrM = {true,true,true,true,true,true,true,};
 	public static boolean[] getAttrM() {
@@ -47,6 +52,7 @@ public class dialogValues {
 	}
 	public static void setAttrM(int i, boolean vv) {
 		dialogValues.attrM[i] = vv;
+
 
 	}
 //epistrefei lista me arrays apo integers pou periexyn ta ranges..
@@ -98,6 +104,7 @@ public class dialogValues {
 	    }
 		return ranNodes;
 	}
+
 
 	
 }

@@ -1,6 +1,8 @@
 package org.cossim.testresults.actions;
 
+
 import java.util.Arrays;
+
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
@@ -14,20 +16,22 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
+
 public class selectAttrs extends Dialog {
+
 
 	/*
 	 * ~/COSSIM/gem5/node#/stats.txt 
-	 * sim_seconds = Number of seconds simulated
-	 * sim_ticks = Number of ticks simulated 
-	 * final_tick = Number of ticks from beginning of simulation (restored from checkpoints and never reset)
-	 * sim_freq = Frequency of simulated ticks host_inst_rate = Simulator instruction rate (inst/s) 
-	 * host_op_rate = Simulator op (including microops) rate (op/s) 
-	 * host_tick_rate = Simulator tick rate (ticks/s)
-	 * host_mem_usage = Number of bytes of host memory used 
-	 * host_seconds = Real time elapsed on the host 
-	 * sim_insts = Number of instructions simulated
-	 * sim_ops = Number of ops (including micro ops) simulated
+	 * simSeconds = Number of seconds simulated
+	 * simTicks = Number of ticks simulated 
+	 * finalTick = Number of ticks from beginning of simulation (restored from checkpoints and never reset)
+	 * simFreq = Frequency of simulated ticks hostInstRate = Simulator instruction rate (inst/s) 
+	 * hostOpRate = Simulator op (including microops) rate (op/s) 
+	 * hostTickRate = Simulator tick rate (ticks/s)
+	 * hostMemory = Number of bytes of host memory used 
+	 * hostSeconds = Real time elapsed on the host 
+	 * simInsts = Number of instructions simulated
+	 * simOps = Number of ops (including micro ops) simulated
 	 * 
 	 * ~/COSSIM/gem5/McPat/energy#.txt 
 	 * runtime 
@@ -43,17 +47,18 @@ public class selectAttrs extends Dialog {
 	 */
 	private Button selectAllGEM5;
 	private Label empty1;
-	private Button sim_seconds;
-	private Button sim_ticks;
-	private Button final_tick;
-	private Button sim_freq;
-	private Button host_inst_rate;
-	private Button host_op_rate;
-	private Button host_tick_rate;
-	private Button host_mem_usage;
-	private Button host_seconds;
-	private Button sim_insts;
-	private Button sim_ops;
+	private Button simSeconds;
+	private Button simTicks;
+	private Button finalTick;
+	private Button simFreq;
+	private Button hostInstRate;
+	private Button hostOpRate;
+	private Button hostTickRate;
+	private Button hostMemory;
+	private Button hostSeconds;
+	private Button simInsts;
+	private Button simOps;
+
 
 	private Button selectAllMc;
 	private Label empty2;
@@ -66,6 +71,7 @@ public class selectAttrs extends Dialog {
 	private Button Runtime_Dynamic;
 	//boolean[] attrs = new boolean[11];
 
+
 	dialogValues dv = new dialogValues();
 	
 	protected selectAttrs(Shell parentShell) {
@@ -75,10 +81,12 @@ public class selectAttrs extends Dialog {
 		
 	}
 
+
 	protected Control createDialogArea(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout(2, false);
 		container.setLayout(layout);
+
 
 		
 		
@@ -86,45 +94,48 @@ public class selectAttrs extends Dialog {
 		GEM5Group.setText("GEM5 Details");
 		GEM5Group.setLayout(new GridLayout(1, true));
 
+
 		selectAllGEM5 = new Button(GEM5Group, SWT.CHECK);
 		selectAllGEM5.setText("Select All GEM5");
 		/*selectAllGEM5.setSelection(true);*/
 		boolean tt = allTrue(dv.getAttrG());
 		selectAllGEM5.setSelection(tt);
 
+
 		selectAllGEM5.addSelectionListener(new SelectionAdapter() {
+
 
 			public void widgetSelected(SelectionEvent e) {
 				Button btn = (Button) e.getSource();
 				System.out.println(btn.getSelection());
 				if (btn.getSelection()) {
-					sim_seconds.setSelection(true);
-					sim_ticks.setSelection(true);
-					final_tick.setSelection(true);
-					sim_freq.setSelection(true);
-					host_inst_rate.setSelection(true);
-					host_op_rate.setSelection(true);
-					host_tick_rate.setSelection(true);
-					host_mem_usage.setSelection(true);
-					host_seconds.setSelection(true);
-					sim_insts.setSelection(true);
-					sim_ops.setSelection(true);
+					simSeconds.setSelection(true);
+					simTicks.setSelection(true);
+					finalTick.setSelection(true);
+					simFreq.setSelection(true);
+					hostInstRate.setSelection(true);
+					hostOpRate.setSelection(true);
+					hostTickRate.setSelection(true);
+					hostMemory.setSelection(true);
+					hostSeconds.setSelection(true);
+					simInsts.setSelection(true);
+					simOps.setSelection(true);
 					for(int k=0;k<dv.getAttrG().length;k++){
 						dv.setAttrG(k, true);
 					}
 					System.out.println("Mesa sto selectAttrs1: "+Arrays.toString(dv.getAttrG()));
 				} else if (!btn.getSelection()) {
-					sim_seconds.setSelection(false);
-					sim_ticks.setSelection(false);
-					final_tick.setSelection(false);
-					sim_freq.setSelection(false);
-					host_inst_rate.setSelection(false);
-					host_op_rate.setSelection(false);
-					host_tick_rate.setSelection(false);
-					host_mem_usage.setSelection(false);
-					host_seconds.setSelection(false);
-					sim_insts.setSelection(false);
-					sim_ops.setSelection(false);
+					simSeconds.setSelection(false);
+					simTicks.setSelection(false);
+					finalTick.setSelection(false);
+					simFreq.setSelection(false);
+					hostInstRate.setSelection(false);
+					hostOpRate.setSelection(false);
+					hostTickRate.setSelection(false);
+					hostMemory.setSelection(false);
+					hostSeconds.setSelection(false);
+					simInsts.setSelection(false);
+					simOps.setSelection(false);
 					for(int k=0;k<dv.getAttrG().length;k++){
 						dv.setAttrG(k, false);
 					}
@@ -133,167 +144,181 @@ public class selectAttrs extends Dialog {
 			}
 		});
 
+
 		empty1 = new Label(GEM5Group, SWT.NONE);
 
-		sim_seconds = new Button(GEM5Group, SWT.CHECK);
-		sim_seconds.setText("Number of seconds simulated");
-		sim_seconds.setSelection(dv.getAttrG()[0]);
-		sim_seconds.addSelectionListener(new SelectionAdapter() {
+
+		simSeconds = new Button(GEM5Group, SWT.CHECK);
+		simSeconds.setText("Number of seconds simulated");
+		simSeconds.setSelection(dv.getAttrG()[0]);
+		simSeconds.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				Button btn = (Button) e.getSource();
 				dv.setAttrG(0, btn.getSelection());
 				
 				boolean tt = allTrue(dv.getAttrG());
 				selectAllGEM5.setSelection(tt);
-				System.out.println("Mesa sto sim_seconds: "+Arrays.toString(dv.getAttrG()));
+				System.out.println("Mesa sto simSeconds: "+Arrays.toString(dv.getAttrG()));
 			}
 		});
 
+
 		
-		sim_ticks = new Button(GEM5Group, SWT.CHECK);
-		sim_ticks.setText("Number of ticks simulated");
-		sim_ticks.setSelection(dv.getAttrG()[1]);
-		sim_ticks.addSelectionListener(new SelectionAdapter() {
+		simTicks = new Button(GEM5Group, SWT.CHECK);
+		simTicks.setText("Number of ticks simulated");
+		simTicks.setSelection(dv.getAttrG()[1]);
+		simTicks.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				Button btn = (Button) e.getSource();
 				dv.setAttrG(1, btn.getSelection());
 				
 				boolean tt = allTrue(dv.getAttrG());
 				selectAllGEM5.setSelection(tt);
-				System.out.println("Mesa sto sim_seconds: "+Arrays.toString(dv.getAttrG()));
+				System.out.println("Mesa sto simSeconds: "+Arrays.toString(dv.getAttrG()));
 			}
 		});
 
-		final_tick = new Button(GEM5Group, SWT.CHECK);
-		final_tick.setText("Number of ticks from beginning of simulation");
-		final_tick.setSelection(dv.getAttrG()[2]);
-		final_tick.addSelectionListener(new SelectionAdapter() {
+
+		finalTick = new Button(GEM5Group, SWT.CHECK);
+		finalTick.setText("Number of ticks from beginning of simulation");
+		finalTick.setSelection(dv.getAttrG()[2]);
+		finalTick.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				Button btn = (Button) e.getSource();
 				dv.setAttrG(2, btn.getSelection());
 				
 				boolean tt = allTrue(dv.getAttrG());
 				selectAllGEM5.setSelection(tt);
-				System.out.println("Mesa sto sim_seconds: "+Arrays.toString(dv.getAttrG()));
+				System.out.println("Mesa sto simSeconds: "+Arrays.toString(dv.getAttrG()));
 			}
 		});
 
-		sim_freq = new Button(GEM5Group, SWT.CHECK);
-		sim_freq.setText("Frequency of simulated ticks");
-		sim_freq.setSelection(dv.getAttrG()[3]);
-		sim_freq.addSelectionListener(new SelectionAdapter() {
+
+		simFreq = new Button(GEM5Group, SWT.CHECK);
+		simFreq.setText("Frequency of simulated ticks");
+		simFreq.setSelection(dv.getAttrG()[3]);
+		simFreq.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				Button btn = (Button) e.getSource();
 				dv.setAttrG(3, btn.getSelection());
 				
 				boolean tt = allTrue(dv.getAttrG());
 				selectAllGEM5.setSelection(tt);
-				System.out.println("Mesa sto sim_seconds: "+Arrays.toString(dv.getAttrG()));
+				System.out.println("Mesa sto simSeconds: "+Arrays.toString(dv.getAttrG()));
 			}
 		});
 
-		host_inst_rate = new Button(GEM5Group, SWT.CHECK);
-		host_inst_rate.setText("Simulator instruction rate (inst/s)");
-		host_inst_rate.setSelection(dv.getAttrG()[4]);
-		host_inst_rate.addSelectionListener(new SelectionAdapter() {
+
+		hostInstRate = new Button(GEM5Group, SWT.CHECK);
+		hostInstRate.setText("Simulator instruction rate (inst/s)");
+		hostInstRate.setSelection(dv.getAttrG()[4]);
+		hostInstRate.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				Button btn = (Button) e.getSource();
 				dv.setAttrG(4, btn.getSelection());
 				
 				boolean tt = allTrue(dv.getAttrG());
 				selectAllGEM5.setSelection(tt);
-				System.out.println("Mesa sto sim_seconds: "+Arrays.toString(dv.getAttrG()));
+				System.out.println("Mesa sto simSeconds: "+Arrays.toString(dv.getAttrG()));
 			}
 		});
 
-		host_op_rate = new Button(GEM5Group, SWT.CHECK);
-		host_op_rate.setText("Simulator op (including micro ops) rate (op/s)");
-		host_op_rate.setSelection(dv.getAttrG()[5]);
-		host_op_rate.addSelectionListener(new SelectionAdapter() {
+
+		hostOpRate = new Button(GEM5Group, SWT.CHECK);
+		hostOpRate.setText("Simulator op (including micro ops) rate (op/s)");
+		hostOpRate.setSelection(dv.getAttrG()[5]);
+		hostOpRate.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				Button btn = (Button) e.getSource();
 				dv.setAttrG(5, btn.getSelection());
 				
 				boolean tt = allTrue(dv.getAttrG());
 				selectAllGEM5.setSelection(tt);
-				System.out.println("Mesa sto sim_seconds: "+Arrays.toString(dv.getAttrG()));
+				System.out.println("Mesa sto simSeconds: "+Arrays.toString(dv.getAttrG()));
 			}
 		});
 
 
-		host_tick_rate = new Button(GEM5Group, SWT.CHECK);
-		host_tick_rate.setText("Simulator tick rate (ticks/s)");
-		host_tick_rate.setSelection(dv.getAttrG()[6]);
-		host_tick_rate.addSelectionListener(new SelectionAdapter() {
+
+
+		hostTickRate = new Button(GEM5Group, SWT.CHECK);
+		hostTickRate.setText("Simulator tick rate (ticks/s)");
+		hostTickRate.setSelection(dv.getAttrG()[6]);
+		hostTickRate.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				Button btn = (Button) e.getSource();
 				dv.setAttrG(6, btn.getSelection());
 				
 				boolean tt = allTrue(dv.getAttrG());
 				selectAllGEM5.setSelection(tt);
-				System.out.println("Mesa sto sim_seconds: "+Arrays.toString(dv.getAttrG()));
+				System.out.println("Mesa sto simSeconds: "+Arrays.toString(dv.getAttrG()));
 			}
 		});
 
-		host_mem_usage = new Button(GEM5Group, SWT.CHECK);
-		host_mem_usage.setText("Number of bytes of host memory used");
-		host_mem_usage.setSelection(dv.getAttrG()[7]);
-		host_mem_usage.addSelectionListener(new SelectionAdapter() {
+
+		hostMemory = new Button(GEM5Group, SWT.CHECK);
+		hostMemory.setText("Number of bytes of host memory used");
+		hostMemory.setSelection(dv.getAttrG()[7]);
+		hostMemory.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				Button btn = (Button) e.getSource();
 				dv.setAttrG(7, btn.getSelection());
 				
 				boolean tt = allTrue(dv.getAttrG());
 				selectAllGEM5.setSelection(tt);
-				System.out.println("Mesa sto sim_seconds: "+Arrays.toString(dv.getAttrG()));
+				System.out.println("Mesa sto simSeconds: "+Arrays.toString(dv.getAttrG()));
 			}
 		});
 
-		host_seconds = new Button(GEM5Group, SWT.CHECK);
-		host_seconds.setText("Real time elapsed on the host");
-		host_seconds.setSelection(dv.getAttrG()[8]);
-		host_seconds.addSelectionListener(new SelectionAdapter() {
+
+		hostSeconds = new Button(GEM5Group, SWT.CHECK);
+		hostSeconds.setText("Real time elapsed on the host");
+		hostSeconds.setSelection(dv.getAttrG()[8]);
+		hostSeconds.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				Button btn = (Button) e.getSource();
 				dv.setAttrG(8, btn.getSelection());
 				
 				boolean tt = allTrue(dv.getAttrG());
 				selectAllGEM5.setSelection(tt);
-				System.out.println("Mesa sto sim_seconds: "+Arrays.toString(dv.getAttrG()));
+				System.out.println("Mesa sto simSeconds: "+Arrays.toString(dv.getAttrG()));
 			}
 		});
 
-		sim_insts = new Button(GEM5Group, SWT.CHECK);
-		sim_insts.setText("Number of instructions simulated");
-		sim_insts.setSelection(dv.getAttrG()[9]);
-		sim_insts.addSelectionListener(new SelectionAdapter() {
+
+		simInsts = new Button(GEM5Group, SWT.CHECK);
+		simInsts.setText("Number of instructions simulated");
+		simInsts.setSelection(dv.getAttrG()[9]);
+		simInsts.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				Button btn = (Button) e.getSource();
 				dv.setAttrG(9, btn.getSelection());
 				
 				boolean tt = allTrue(dv.getAttrG());
 				selectAllGEM5.setSelection(tt);
-				System.out.println("Mesa sto sim_seconds: "+Arrays.toString(dv.getAttrG()));
+				System.out.println("Mesa sto simSeconds: "+Arrays.toString(dv.getAttrG()));
 			}
 		});
 
-		sim_ops = new Button(GEM5Group, SWT.CHECK);
-		sim_ops.setText("Number of ops (including micro ops) simulated");
-		sim_ops.setSelection(dv.getAttrG()[10]);
-		sim_ops.addSelectionListener(new SelectionAdapter() {
+
+		simOps = new Button(GEM5Group, SWT.CHECK);
+		simOps.setText("Number of ops (including micro ops) simulated");
+		simOps.setSelection(dv.getAttrG()[10]);
+		simOps.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				Button btn = (Button) e.getSource();
 				dv.setAttrG(10, btn.getSelection());
 				
 				boolean tt = allTrue(dv.getAttrG());
 				selectAllGEM5.setSelection(tt);
-				System.out.println("Mesa sto sim_seconds: "+Arrays.toString(dv.getAttrG()));
+				System.out.println("Mesa sto simSeconds: "+Arrays.toString(dv.getAttrG()));
 			}
 		});
 		
 		Group McPGroup = new Group(container, SWT.NONE);
 		McPGroup.setText("McPat Details");
 		McPGroup.setLayout(new GridLayout(1, true));
+
 
 		selectAllMc = new Button(McPGroup, SWT.CHECK);
 		selectAllMc.setText("Select All McPat");
@@ -302,6 +327,7 @@ public class selectAttrs extends Dialog {
 		selectAllMc.setSelection(tt1);
 		
 		selectAllMc.addSelectionListener(new SelectionAdapter() {
+
 
 			public void widgetSelected(SelectionEvent e) {
 				Button btn = (Button) e.getSource();
@@ -445,6 +471,7 @@ public class selectAttrs extends Dialog {
 				System.out.println("Mesa sto : "+Arrays.toString(dv.getAttrM()));
 			}
 		});
+
 
 		return container;
 	}

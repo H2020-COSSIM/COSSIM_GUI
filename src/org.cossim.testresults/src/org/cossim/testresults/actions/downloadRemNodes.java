@@ -1,5 +1,6 @@
 package org.cossim.testresults.actions;
 
+
 import java.nio.file.Files;
 import java.io.File;
 import java.io.IOException;
@@ -7,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Set;
+
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -19,12 +21,15 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
 
+
 public class downloadRemNodes extends Dialog {
+
 
 	
 	protected downloadRemNodes(Shell parentShell) {
 		super(parentShell);
 	}
+
 
 	/////////// FOR REMOTE!!!!! //////////////////////////////
 	String openRunSH(){ //Reads run.sh file int a String
@@ -41,6 +46,7 @@ public class downloadRemNodes extends Dialog {
 		String lines[] = rr.split("\\r?\\n");
 		String lines1[] = rr.split("[\\r\\n]+"); // Remove empty lines
 
+
 		return lines1;
 	}
 	
@@ -55,6 +61,9 @@ boolean[] findRemote(String[] lines){
 		}
 		return rem;
 	}
+
+
+
 
 
 
@@ -74,6 +83,9 @@ static String[] remAttrs(String line){
 	
 	return rem;
 }
+
+
+
 
 
 
@@ -110,6 +122,7 @@ String[][] remoteNodes4getRes(){
 	return remAttrs;
 }
 
+
 String[] createCommands(){
 	String[][] remNodes = remoteNodes4getRes();
 	String[] callScript = new String[remNodes.length];
@@ -122,6 +135,8 @@ String[] createCommands(){
 	
 	return callScript;
 }
+
+
 
 
 	//////////  FOR REMOTE - END!!!!! ////////////////////////
@@ -138,14 +153,17 @@ String[] createCommands(){
 	    Label down = new Label(container, SWT.NONE);
 	    down.setText("Downloading results for remote nodes...");
 
+
 	   
 	    createCommands();
 	    
 	    Process[] pr = new Process[createCommands().length];
 
+
 	    for(int c=0;c<createCommands().length;c++){
 	    	try {
 	    		pr[c] = Runtime.getRuntime().exec(createCommands()[c]);
+
 
 			} catch (IOException/* | InterruptedException*/ e) {
 				
@@ -163,5 +181,6 @@ String[] createCommands(){
 		return container;
 	}
 	
+
 
 }

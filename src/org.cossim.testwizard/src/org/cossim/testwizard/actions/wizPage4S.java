@@ -149,31 +149,31 @@ public class wizPage4S extends WizardPage{
 	/* Gia to nodesMap (16 theseis) -1 oi 8eseis giati leipei to Proc
 	 * 
 		0  β†’ Proc						(OK)			(String)
-		1  β†’ kernel						(OK)			(String)				
-		2  β†’ disk-image					(OK)			(String)
-		3  β†’ mem-size					(OK)			(int 512 - 4096)
+		1  β†’ kernel					(OK)			(String)				
+		2  β†’ disk-image				(OK)			(String)
+		3  β†’ mem-size					(OK)			(int 2048 - 8192)
 		4  β†’ SyncTime					(OK)			(int)
-		5  β†’ SyncTime time unit			(OK)			(String)
+		5  β†’ SyncTime time unit		(OK)			(String)
 		6  β†’ PacketTime 				(OK)			(int)				
 		7  β†’ PacketTime time unit		(OK)			(String)
-		8  β†’ machine-type 				(OK)			(String)			
+		8  β†’ ConfigPath 				(OK)			(String)			
 		9  β†’ dtb						(OK)			(String)
 		10 β†’ -b 						(OK)			(String)
-		11 β†’ IP											(String)
+		11 β†’ IP										(String)
 		12 β†’ username									(String)
 		13 β†’ password									(String)
-		14 β†’ path									(String)
-		15 β†’ Etherdump									(String)
+		14 β†’ path										(String)
+		15 β†’ Etherdump								(String)
 		//NEW
-		16 β†’ mcpat-xml									(String)
+		16 β†’ mcpat-xml								(String)
 		17 β†’ Cores									(String)
 	*/
 	
 	
 	String[][] sampleNodes ={
-			{"ARM-32", "vmlinux.aarch32.ll_20131205.0-gem5", "linux-aarch32-ael.img", "512MB", SynchTimeSample, SynchTimeUnitSample, "10", "ms", "VExpress_EMM", "vexpress.aarch32.ll_20131205.0-gem5.1cpu.dtb", /*"bench"*/"$GEM5/configs/boot/COSSIM/script",null, null, null, /*"/home/cossim/COSSIM/gem5"*/"$GEM5", /*"/home/cossim/COSSIM/gem5/node0/etherdump_file"*/"$GEM5/node0/etherdump_file", null, "1"},
-			{"ARM-64", "vmlinux.aarch64.20140821", "aarch64-ubuntu-natty-headless.img", "512MB", SynchTimeSample, SynchTimeUnitSample, "10", "ms", "VExpress_EMM64", "vexpress.aarch64.20140821.dtb", /*"bench"*/"$GEM5/configs/boot/COSSIM/script", null, null, null, /*"/home/cossim/COSSIM/gem5"*/"$GEM5", /*"/home/cossim/COSSIM/gem5/node1/etherdump_file"*/"$GEM5/node1/etherdump_file", null, "1"},
-			{"x86", "x86_64-vmlinux-3.2.24-smp", "x86_64root.img", "512MB", SynchTimeSample, SynchTimeUnitSample, "10", "ms", null, null, /*"bench"*/"$GEM5/configs/boot/COSSIM/script", null, null, null, /*"/home/cossim/COSSIM/gem5"*/"$GEM5", /*"/home/cossim/COSSIM/gem5/node2/etherdump_file"*/"$GEM5/node1/etherdump_file", null, "1"}};
+			{"RISC-V", "riscv-bootloader-vmlinux-5.10-PCI", "riscv-ubuntu.img", "512MB", SynchTimeSample, SynchTimeUnitSample, "10", "ms", "VExpress_GEM5_V1", "$GEM5/configs/boot/COSSIM/script",null, null, null,"$GEM5", "$GEM5/node0/etherdump_file", null, "1"},
+			{"ARM-64", "vmlinux.arm64", "aarch64-ubuntu-natty-headless.img", "2048MB", SynchTimeSample, SynchTimeUnitSample, "10", "ms", "VExpress_GEM5_V1", "$GEM5/configs/boot/COSSIM/script", null, null, null, "$GEM5", "$GEM5/node1/etherdump_file", null, "1"},
+			{"x86", "vmlinux-5.4.49", "x86-ubuntu.img", "512MB", SynchTimeSample, SynchTimeUnitSample, "10", "ms", null, null, "$GEM5/configs/boot/COSSIM/script", null, null, null, "$GEM5", "$GEM5/node1/etherdump_file", null, "1"}};
 	
 	void createp4S(String[][] nodes, ScrolledComposite sc, Group grp_2, final Group grp_3, Group grp_4, final Composite container, final Composite container1, ScrolledComposite sccontainer,final Composite container2){
 		
@@ -236,7 +236,7 @@ public class wizPage4S extends WizardPage{
 				TreeItem machineTypeItem = new TreeItem(procItem, SWT.NONE);
 				TreeItem machineTypeItemV = new TreeItem(machineTypeItem,
 						SWT.NONE);
-				machineTypeItem.setText("machine-type");
+				machineTypeItem.setText("ConfigPath");
 				machineTypeItemV.setText(nodes[yy][8]);
 			}
 			if (nodes[yy][9] != null && !nodes[yy][9].equals("null")) {
@@ -594,33 +594,31 @@ public class wizPage4S extends WizardPage{
 		final String[] addCl; // Dedomena gia to ADD Cluster
 		addCl = new String[23];
 
-		final String[] proc = { "ARM-32", "ARM-64", "x86" };
+		final String[] proc = { "RISC-V", "ARM-64", "x86" };
 
-		final String[] kernelA32 = { "vmlinux.aarch32.ll_20131205.0-gem5" };
-		final String[] kernelA64 = { "vmlinux.aarch64.20140821" };
-		final String[] kernelx86 = { "x86_64-vmlinux-3.2.24-smp" };
+		
+		final String[] kernelRISCV = {"riscv-bootloader-vmlinux-5.10-PCI" };
+		final String[] kernelA64 = { "vmlinux.arm64" }; 
+		final String[] kernelx86 = { "vmlinux-5.4.49" }; 
 
-		final String[] diskImageA32 = { "linux-aarch32-ael.img", "aarch32-ubuntu-natty-headless.img" };   //
-		final String[] diskImageA64 = { "linaro-minimal-aarch64.img", "aarch64-ubuntu-trusty-headless.img" };
-		final String[] diskImagex86 = { "x86_64root.img", "ubuntu-12.04.img" };//
+		final String[] diskImageRISCV = {"riscv-ubuntu.img" };
+		final String[] diskImageA64 = { "ubuntu-18.04-arm64-docker.img" }; 
+		final String[] diskImagex86 = { "x86-ubuntu.img" }; 
 
-		final String[] memSize = { "512MB", "1024MB", "2048MB", "4096MB" };
+		final String[] memSize = { "2048MB", "4096MB", "8192MB" }; 
 
 		final String[] units = { "ms", "us" };
 
-		final String[] macType32 = { "VExpress_EMM" };
-		final String[] macType64 = { "VExpress_EMM64" };
-
-		final String[] dtb32 = {
-				"vexpress.aarch32.ll_20131205.0-gem5.1cpu.dtb",
-				"vexpress.aarch32.ll_20131205.0-gem5.2cpu.dtb",
-				"vexpress.aarch32.ll_20131205.0-gem5.4cpu.dtb" };
-
-		final String[] dtb64 = { "vexpress.aarch64.20140821.dtb" };
 		
-		final String[] dtb32c = {"1", "2", "4"};
-		final String[] dtb64c = {"1", "2", "4"};
-		final String[] dtb86c = {"1", "2", "4"};
+		final String[] macType64 = { "VExpress_GEM5_V1" }; 
+
+
+		final String[] dtb64 = { "" }; 
+		final String[] dtbriscv = { "" };
+		
+		final String[] dtbriscvc = {"1", "2", "4", "8", "16", "32", "64"};
+		final String[] dtb64c = {"1", "2", "4", "8", "16", "32", "64"};		
+		final String[] dtb86c = {"1", "2", "4", "8", "16", "32", "64"};		
 		
 		final String[] powerx86 = {"x86_AtomicSimpleCPU_template.xml"};
 		final String[] powerARM = {"ARM_AtomicSimpleCPU_template.xml"};
@@ -638,7 +636,7 @@ public class wizPage4S extends WizardPage{
 		final Label procLbl;
 		final Label KernelLbl;
 		final Label diskImLbl;
-		final Label MachTypeLdl;
+		final Label configLbl;
 		final Label pathLbl;
 		final Label memSizeLbl;
 		final Label StLbl;
@@ -652,7 +650,7 @@ public class wizPage4S extends WizardPage{
 		final Combo procComb;
 		final Combo KernelComb;
 		final Combo diskImComb;
-		final Combo MachTypeComb;
+		final Combo configComb;
 		final Combo memSizeComb;
 		final Combo dtdCombo;
 		final Button bench;
@@ -752,12 +750,12 @@ public class wizPage4S extends WizardPage{
 		});
 		
 		// MachineType and dtb if not x86
-		MachTypeLdl = new Label(grp_3, SWT.NONE);
-		MachTypeLdl.setText("machine-type");
-		MachTypeLdl.setEnabled(false);
-		MachTypeComb = new Combo(grp_3, SWT.DROP_DOWN |SWT.READ_ONLY);
-		MachTypeComb.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false, 2, 1));
-		MachTypeComb.setEnabled(false);
+		configLbl = new Label(grp_3, SWT.NONE);
+		configLbl.setText("ConfigPath");
+		configLbl.setEnabled(false);
+		configComb = new Combo(grp_3, SWT.DROP_DOWN |SWT.READ_ONLY);
+		configComb.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false, 2, 1));
+		configComb.setEnabled(false);
 
 		dtbLbl = new Label(grp_3, SWT.NONE);
 		dtbLbl.setLayoutData(new GridData(SWT.RIGHT,SWT.BEGINNING, true, false, 1, 1));
@@ -1210,8 +1208,8 @@ public class wizPage4S extends WizardPage{
 							addBtn.setEnabled(add);
 							KernelComb.setItems(kernelx86);
 							diskImComb.setItems(diskImagex86);
-							MachTypeLdl.setEnabled(false);
-							MachTypeComb.setEnabled(false);
+							configLbl.setEnabled(false);
+							configComb.setEnabled(false);
 							//if( addCl[12] != null){
 								addCl[12]=null;
 							//}
@@ -1223,28 +1221,7 @@ public class wizPage4S extends WizardPage{
 							//}
 							dtbLblV.setEnabled(true);
 							dtbLblV.setText("Not Selected");
-						} else if (addCl[4].equals("ARM-32")) {
-							powerCmb.setItems(powerARM);
-							addOn[19]=false;
-							addOn[18]=true;
-							add = check_addClEnable(addOn);
-							addBtn.setEnabled(add);
-							KernelComb.setItems(kernelA32);
-							diskImComb.setItems(diskImageA32);
-							MachTypeLdl.setEnabled(true);
-							MachTypeComb.setEnabled(true);
-							MachTypeComb.setItems(macType32);
-							addCl[12]=null;
-							dtbLbl.setEnabled(true);
-							dtdCombo.setEnabled(true);
-							dtdCombo.setItems(dtb32c);
-						//	if( addCl[13] != null){
-								addCl[13]=null;
-						//	}
-							dtbLblV.setEnabled(true);
-							dtbLblV.setText("Not Selected");
-							addCl[13]=null;
-						} else if (addCl[4].equals("ARM-64")) {
+						}else if (addCl[4].equals("ARM-64")) {
 							powerCmb.setItems(powerARM);
 							addOn[19]=false;
 							addOn[18]=true;
@@ -1252,14 +1229,34 @@ public class wizPage4S extends WizardPage{
 							addBtn.setEnabled(add);
 							KernelComb.setItems(kernelA64);
 							diskImComb.setItems(diskImageA64);
-							MachTypeLdl.setEnabled(true);
-							MachTypeComb.setEnabled(true);
-							MachTypeComb.setItems(macType64);
+							configLbl.setEnabled(true);
+							configComb.setEnabled(true);
+							configComb.setItems(macType64);
 							addCl[12]=null;
 							dtbLbl.setEnabled(true);
 							dtdCombo.setEnabled(true);
 							dtdCombo.setItems(dtb64c);
 					//		if( addCl[13] != null){
+								addCl[13]=null;
+						//	}
+							dtbLblV.setEnabled(true);
+							dtbLblV.setText("Not Selected");
+						}else if (addCl[4].equals("RISC-V")) {
+							powerCmb.setItems(powerARM);
+							addOn[19]=false;
+							addOn[18]=true;
+							add = check_addClEnable(addOn);
+							addBtn.setEnabled(add);
+							KernelComb.setItems(kernelRISCV);
+							diskImComb.setItems(diskImageRISCV);
+							configLbl.setEnabled(true);
+							configComb.setEnabled(true);
+							configComb.setItems(macType64);
+							addCl[12]=null;
+							dtbLbl.setEnabled(true);
+							dtdCombo.setEnabled(true);
+							dtdCombo.setItems(dtbriscvc);
+						//	if( addCl[13] != null){
 								addCl[13]=null;
 						//	}
 							dtbLblV.setEnabled(true);
@@ -1280,8 +1277,8 @@ public class wizPage4S extends WizardPage{
 							memSizeComb.deselectAll();
 							RxPcktTextT.setText("");
 							RxPcktCombU.deselectAll();
-							MachTypeComb.deselectAll();
-							MachTypeComb.setEnabled(false);
+							configComb.deselectAll();
+							configComb.setEnabled(false);
 							dtdCombo.deselectAll();
 							dtbLblV.setText("Not Selected");
 							IPText.setText("");
@@ -1293,87 +1290,59 @@ public class wizPage4S extends WizardPage{
 							powerBtn.setSelection(false);
 							powerCmb.deselectAll();
 							powerCmb.setEnabled(false);
-							if(procComb.getText().equals("ARM-32")){
-								KernelComb.setItems(kernelA32);
-								
-								diskImComb.setItems(diskImageA32);
-								
-								MachTypeLdl.setEnabled(true);
-								MachTypeComb.setEnabled(true);
-								MachTypeComb.setItems(macType32);
-								
-								dtbLbl.setEnabled(true);
-								dtdCombo.setEnabled(true);
-								dtdCombo.setItems(dtb32c);
-								
-								powerCmb.setItems(powerARM);
-								powerBtn.setSelection(false);
-								
-							}else if(procComb.getText().equals("ARM-64")){
+							if(procComb.getText().equals("ARM-64")){
 								KernelComb.setItems(kernelA64);
 								diskImComb.setItems(diskImageA64);
 								
-								MachTypeLdl.setEnabled(true);
-								MachTypeComb.setEnabled(true);
-								MachTypeComb.setItems(macType64);
+								configLbl.setEnabled(true);
+								configComb.setEnabled(true);
+								configComb.setItems(macType64);
 								
 								dtbLbl.setEnabled(true);
 								dtdCombo.setEnabled(true);
 								dtdCombo.setItems(dtb64c);
 								powerBtn.setSelection(false);
 								powerCmb.setItems(powerARM);
+							}else if(procComb.getText().equals("RISC-V")){
+								KernelComb.setItems(kernelRISCV);
+								diskImComb.setItems(diskImageRISCV);
+								
+								configLbl.setEnabled(true);
+								configComb.setEnabled(true);
+								configComb.setItems(macType64);
+								
+								dtbLbl.setEnabled(true);
+								dtdCombo.setEnabled(true);
+								dtdCombo.setItems(dtbriscvc);
+								powerBtn.setSelection(false);
+								powerCmb.setItems(powerARM);
 							}else if(procComb.getText().equals("x86")){
 								KernelComb.setItems(kernelx86);
 								diskImComb.setItems(diskImagex86);
-								MachTypeLdl.setEnabled(false);
-								MachTypeComb.setEnabled(false);
+								configLbl.setEnabled(false);
+								configComb.setEnabled(false);
 								dtbLbl.setEnabled(true);
 								dtbLbl.setEnabled(true);
 								dtdCombo.setEnabled(true);
 								dtdCombo.setItems(dtb86c);
 								powerBtn.setSelection(false);
 								powerCmb.setItems(powerx86);
-								medNodeMap.remove("machine-type");
+								medNodeMap.remove("ConfigPath");
 								medNodeMap.remove("dtb");
 							}
 
 								medNodeMap.put("Proc", procComb.getText());	
 							}else{//An den alla3ei o proc!!!!!!!!!!
-								if(procComb.getText().equals("ARM-32")){
-									KernelComb.setItems(kernelA32);
-									KernelComb.select(Arrays.asList(kernelA32).indexOf(medNodeMap.get("kernel")));
-									
-									diskImComb.setItems(diskImageA32);
-									diskImComb.select(Arrays.asList(diskImageA32).indexOf(medNodeMap.get("disk-image")));
-									
-									MachTypeLdl.setEnabled(true);
-									MachTypeComb.setEnabled(true);
-									MachTypeComb.setItems(macType32);
-									MachTypeComb.select(Arrays.asList(macType32).indexOf(medNodeMap.get("machine-type")));
-									
-									dtbLbl.setEnabled(true);
-									dtdCombo.setEnabled(true);
-									dtdCombo.setItems(dtb32c);
-									dtdCombo.select(Arrays.asList(dtb32).indexOf(medNodeMap.get("Cores")));
-									
-									powerCmb.setItems(powerARM);
-									if(medNodeMap.containsKey("mcpat-xml")){
-										powerBtn.setSelection(true);
-										powerCmb.select(Arrays.asList(powerARM).indexOf(medNodeMap.get("mvpat-xml")));
-									}else{
-										powerBtn.setSelection(false);
-										powerCmb.setEnabled(false);
-									}
-								}else if(procComb.getText().equals("ARM-64")){
+								if(procComb.getText().equals("ARM-64")){
 									KernelComb.setItems(kernelA64);
 									KernelComb.select(Arrays.asList(kernelA64).indexOf(medNodeMap.get("kernel")));
 									diskImComb.setItems(diskImageA64);
 									diskImComb.select(Arrays.asList(diskImageA64).indexOf(medNodeMap.get("disk-image")));
 									
-									MachTypeLdl.setEnabled(true);
-									MachTypeComb.setEnabled(true);
-									MachTypeComb.setItems(macType64);
-									MachTypeComb.select(Arrays.asList(macType64).indexOf(medNodeMap.get("machine-type")));
+									configLbl.setEnabled(true);
+									configComb.setEnabled(true);
+									configComb.setItems(macType64);
+									configComb.select(Arrays.asList(macType64).indexOf(medNodeMap.get("ConfigPath")));
 									
 									dtbLbl.setEnabled(true);
 									dtdCombo.setEnabled(true);
@@ -1389,12 +1358,37 @@ public class wizPage4S extends WizardPage{
 										powerCmb.setEnabled(false);
 									}
 
+								}else if(procComb.getText().equals("RISC-V")){
+									KernelComb.setItems(kernelRISCV);
+									KernelComb.select(Arrays.asList(kernelRISCV).indexOf(medNodeMap.get("kernel")));
+									diskImComb.setItems(diskImageRISCV);
+									diskImComb.select(Arrays.asList(diskImageRISCV).indexOf(medNodeMap.get("disk-image")));
+									
+									configLbl.setEnabled(true);
+									configComb.setEnabled(true);
+									configComb.setItems(macType64);
+									configComb.select(Arrays.asList(macType64).indexOf(medNodeMap.get("ConfigPath")));
+									
+									dtbLbl.setEnabled(true);
+									dtdCombo.setEnabled(true);
+									dtdCombo.setItems(dtbriscvc);
+									dtdCombo.select(Arrays.asList(dtbriscv).indexOf(medNodeMap.get("dtb")));
+									
+									powerCmb.setItems(powerARM);
+									if(medNodeMap.containsKey("mcpat-xml")){
+										powerBtn.setSelection(true);
+										powerCmb.select(Arrays.asList(powerARM).indexOf(medNodeMap.get("mcpat-xml")));
+									}else{
+										powerBtn.setSelection(false);
+										powerCmb.setEnabled(false);
+									}
+
 								}else if(procComb.getText().equals("x86")){
 									KernelComb.setItems(kernelx86);
 									KernelComb.select(Arrays.asList(kernelx86).indexOf(medNodeMap.get("kernel")));
 									diskImComb.setItems(diskImagex86);
 									diskImComb.select(Arrays.asList(diskImagex86).indexOf(medNodeMap.get("disk-image")));
-									MachTypeLdl.setEnabled(false);
+									configLbl.setEnabled(false);
 									dtbLbl.setEnabled(true);
 									dtdCombo.setEnabled(true);
 									dtdCombo.setItems(dtb86c);
@@ -1436,7 +1430,7 @@ public class wizPage4S extends WizardPage{
 					}else if(!values.addOrEdit){
 						if(btn.getSelection()){
 							powerCmb.setEnabled(true);
-							if(procComb.getText().equals("ARM-32") || procComb.getText().equals("ARM-64")){
+							if(procComb.getText().equals("ARM-64") || procComb.getText().equals("RISC-V")){
 								powerCmb.setItems(powerARM);
 							}else if(procComb.getText().equals("x86")){
 								powerCmb.setItems(powerx86);
@@ -1589,19 +1583,19 @@ public class wizPage4S extends WizardPage{
 				}
 			});
 			
-			MachTypeComb.addSelectionListener(new SelectionListener() {
+			configComb.addSelectionListener(new SelectionListener() {
 				public void widgetSelected(SelectionEvent e) {
 					if(values.addOrEdit){
 						addOn[12]=true;
 						add = check_addClEnable(addOn);
 						addBtn.setEnabled(add);
-						addCl[12] = MachTypeComb.getText();
+						addCl[12] = configComb.getText();
 					}else if(!values.addOrEdit){
-						if(procComb.getText().equals("ARM-32") || procComb.getText().equals("ARM-64")){
-							medNodeMap.put("machine-type", MachTypeComb.getText());
+						if( procComb.getText().equals("ARM-64") || procComb.getText().equals("RISC-V")){
+							medNodeMap.put("ConfigPath", configComb.getText());
 							addBtn.setEnabled(true);
-						}else if(medNodeMap.containsKey("machine-type")){
-							medNodeMap.remove("machine-type");
+						}else if(medNodeMap.containsKey("ConfigPath")){
+							medNodeMap.remove("ConfigPath");
 						}
 					}
 				
@@ -1623,16 +1617,10 @@ public class wizPage4S extends WizardPage{
 						dtbLblV.setText("Number of Cores: "+dtdCombo.getText());
 						if(addCl[4].equals("x86")){
 							addCl[13] = "null";
-						}else if(addCl[4].equals("ARM-32")){
-							if(dtdCombo.getText().equals("1")){
-								addCl[13] = dtb32[0];
-							}else if(dtdCombo.getText().equals("2")){
-								addCl[13] = dtb32[1];
-							}else if(dtdCombo.getText().equals("4")){
-								addCl[13] = dtb32[2];
-							}
 						}else if(addCl[4].equals("ARM-64")){
 							addCl[13] = dtb64[0];
+						}else if(addCl[4].equals("RISC-V")){
+							addCl[13] = dtbriscv[0];
 						}
 						//addCl[13] = dtdCombo.getText();
 					}else if(!values.addOrEdit){
@@ -1640,16 +1628,10 @@ public class wizPage4S extends WizardPage{
 						dtbLblV.setText("Number of Cores: "+dtdCombo.getText());
 						medNodeMap.put("Cores", dtdCombo.getText());
 						
-							if(procComb.getText().equals("ARM-32")){
-								if(dtdCombo.getText().equals("1")){
-									medNodeMap.put("dtb", dtb32[0]);
-								}else if(dtdCombo.getText().equals("2")){
-									medNodeMap.put("dtb", dtb32[1]);
-								}else if(dtdCombo.getText().equals("4")){
-									medNodeMap.put("dtb", dtb32[2]);
-								}
-							}else if(procComb.getText().equals("ARM-64")){
+							if(procComb.getText().equals("ARM-64")){
 								medNodeMap.put("dtb", dtb64[0]);
+							}else if(procComb.getText().equals("RISC-V")){
+								medNodeMap.put("dtb", dtbriscv[0]);
 							}else if(procComb.getText().equals("x86")){
 								if(medNodeMap.containsKey("dtb")){
 									medNodeMap.remove("dtb");
@@ -1674,7 +1656,7 @@ public class wizPage4S extends WizardPage{
  				procComb.deselectAll();
 				KernelComb.deselectAll();
 				diskImComb.deselectAll();
-				MachTypeComb.deselectAll();
+				configComb.deselectAll();
 				memSizeComb.deselectAll();
 				dtdCombo.deselectAll();
 				powerCmb.deselectAll();
@@ -1757,9 +1739,9 @@ public class wizPage4S extends WizardPage{
  							procComb.select(Arrays.asList(proc).indexOf(medNodeMap.get("Proc")));
  						}
  						
- 						if(!medNodeMap.containsKey("machine-type")){
- 							MachTypeLdl.setEnabled(false);
- 							MachTypeComb.setEnabled(false);
+ 						if(!medNodeMap.containsKey("ConfigPath")){
+ 							configLbl.setEnabled(false);
+ 							configComb.setEnabled(false);
  						}
  						
  						if(!medNodeMap.containsKey("IP")){
@@ -1775,18 +1757,18 @@ public class wizPage4S extends WizardPage{
  							passText.setEnabled(false);
  						}
  						
- 						if(medNodeMap.containsKey("machine-type")){
- 							MachTypeLdl.setEnabled(true);
- 							MachTypeComb.setEnabled(true);
- 							if(procComb.getText().equals("ARM-32")){
- 								MachTypeComb.setItems(macType32);
- 								MachTypeComb.select(Arrays.asList(macType32).indexOf(medNodeMap.get("machine-type")));
- 							}else if(procComb.getText().equals("ARM-64")){
- 								MachTypeComb.setItems(macType64);
- 								MachTypeComb.select(Arrays.asList(macType64).indexOf(medNodeMap.get("machine-type")));
+ 						if(medNodeMap.containsKey("ConfigPath")){
+ 							configLbl.setEnabled(true);
+ 							configComb.setEnabled(true);
+ 							if(procComb.getText().equals("ARM-64")){
+ 								configComb.setItems(macType64);
+ 								configComb.select(Arrays.asList(macType64).indexOf(medNodeMap.get("ConfigPath")));
+ 							}else if(procComb.getText().equals("RISC-V")){
+ 								configComb.setItems(macType64);
+ 								configComb.select(Arrays.asList(macType64).indexOf(medNodeMap.get("ConfigPath")));
  							}else if(procComb.getText().equals("x86")){
- 								MachTypeComb.setEnabled(false);
- 								MachTypeLdl.setEnabled(false);
+ 								configComb.setEnabled(false);
+ 								configLbl.setEnabled(false);
  							}
  						}
  						
@@ -1796,12 +1778,12 @@ public class wizPage4S extends WizardPage{
  							dtbLblV.setEnabled(true);
  							dtbLblV.setText("Number of Cores: "+medNodeMap.get("Cores"));
  							dtdCombo.setEnabled(true);
- 							if(procComb.getText().equals("ARM-32")){
- 								dtdCombo.setItems(dtb32c);
- 								dtdCombo.select(Arrays.asList(dtb32c).indexOf(medNodeMap.get("Cores")));
- 							}else if(procComb.getText().equals("ARM-64")){
+ 							if(procComb.getText().equals("ARM-64")){
  								dtdCombo.setItems(dtb64c);
  								dtdCombo.select(Arrays.asList(dtb64c).indexOf(medNodeMap.get("Cores")));
+ 							}else if(procComb.getText().equals("RISC-V")){
+ 								dtdCombo.setItems(dtbriscvc);
+ 								dtdCombo.select(Arrays.asList(dtbriscvc).indexOf(medNodeMap.get("Cores")));
  							}else if(procComb.getText().equals("x86")){
  								dtdCombo.setItems(dtb86c);
  								dtdCombo.select(Arrays.asList(dtb86c).indexOf(medNodeMap.get("Cores")));
@@ -1811,12 +1793,12 @@ public class wizPage4S extends WizardPage{
  						if(medNodeMap.containsKey("kernel")){
  							KernelComb.setEnabled(true);
  							KernelLbl.setEnabled(true);
- 							if(procComb.getText().equals("ARM-32")){
- 								KernelComb.setItems(kernelA32);
- 								KernelComb.select(Arrays.asList(kernelA32).indexOf(medNodeMap.get("kernel")));
- 							}else if(procComb.getText().equals("ARM-64")){
+ 							if(procComb.getText().equals("ARM-64")){
  								KernelComb.setItems(kernelA64);
  								KernelComb.select(Arrays.asList(kernelA64).indexOf(medNodeMap.get("kernel")));
+ 							}else if(procComb.getText().equals("RISC-V")){
+ 								KernelComb.setItems(kernelRISCV);
+ 								KernelComb.select(Arrays.asList(kernelRISCV).indexOf(medNodeMap.get("kernel")));
  							}else if(procComb.getText().equals("x86")){
  								KernelComb.setItems(kernelx86);
  								KernelComb.select(Arrays.asList(kernelx86).indexOf(medNodeMap.get("kernel")));
@@ -1826,12 +1808,12 @@ public class wizPage4S extends WizardPage{
  						if(medNodeMap.containsKey("disk-image")){
  							diskImComb.setEnabled(true);
  							diskImLbl.setEnabled(true);
- 							if(procComb.getText().equals("ARM-32")){
- 								diskImComb.setItems(diskImageA32);
- 								diskImComb.select(Arrays.asList(diskImageA32).indexOf(medNodeMap.get("disk-image")));
- 							}else if(procComb.getText().equals("ARM-64")){
+ 							if(procComb.getText().equals("ARM-64")){
  								diskImComb.setItems(diskImageA64);
  								diskImComb.select(Arrays.asList(diskImageA64).indexOf(medNodeMap.get("disk-image")));
+ 							}else if(procComb.getText().equals("RISC-V")){
+ 								diskImComb.setItems(diskImageRISCV);
+ 								diskImComb.select(Arrays.asList(diskImageRISCV).indexOf(medNodeMap.get("disk-image")));
  							}else if(procComb.getText().equals("x86")){
  								diskImComb.setItems(diskImagex86);
  								diskImComb.select(Arrays.asList(diskImagex86).indexOf(medNodeMap.get("disk-image")));
@@ -1898,7 +1880,7 @@ public class wizPage4S extends WizardPage{
  							powerBtn.setEnabled(true);
  							powerBtn.setSelection(true);
  							powerCmb.setEnabled(true);
- 							if(procComb.getText().equals("ARM-32") || procComb.getText().equals("ARM-64")){
+ 							if(procComb.getText().equals("ARM-64") || procComb.getText().equals("RISC-V")){
  								powerCmb.setItems(powerARM);
  								powerCmb.select(Arrays.asList(powerARM).indexOf(medNodeMap.get("mcpat-xml")));
  							}else if(procComb.getText().equals("x86")){
@@ -1987,7 +1969,7 @@ public class wizPage4S extends WizardPage{
 								TreeItem machineTypeItem = new TreeItem(procItem, SWT.NONE);
 								TreeItem machineTypeItemV = new TreeItem(machineTypeItem,
 										SWT.NONE);
-								machineTypeItem.setText("machine-type");
+								machineTypeItem.setText("ConfigPath");
 								machineTypeItemV.setText(addCl[12]);
 
 							}
@@ -2185,11 +2167,11 @@ public class wizPage4S extends WizardPage{
 						RxpacketTimeUItem.setText("RxPacketTimeUnit");
 						RxpacketTimeUItemV.setText(medNodeMap.get("RxPacketTimeUnit"));
 						
-						if (medNodeMap.containsKey("machine-type")) {
+						if (medNodeMap.containsKey("ConfigPath")) {
 							TreeItem machineTypeItem = new TreeItem(procItem, SWT.NONE);
 							TreeItem machineTypeItemV = new TreeItem(machineTypeItem,SWT.NONE);
-							machineTypeItem.setText("machine-type");
-							machineTypeItemV.setText(medNodeMap.get("machine-type"));
+							machineTypeItem.setText("ConfigPath");
+							machineTypeItemV.setText(medNodeMap.get("ConfigPath"));
 
 						}
 						if (medNodeMap.containsKey("dtb")) {
@@ -2253,7 +2235,7 @@ public class wizPage4S extends WizardPage{
 					procComb.deselectAll();
 					KernelComb.deselectAll();
 					diskImComb.deselectAll();
-					MachTypeComb.deselectAll();
+					configComb.deselectAll();
 					memSizeComb.deselectAll();
 					dtdCombo.deselectAll();
 					powerCmb.deselectAll();
@@ -2363,7 +2345,7 @@ public class wizPage4S extends WizardPage{
 				MessageDialog.openInformation(
 						container.getShell(),
 						"Auto saved files",
-						"Comnfiguration saved in /home/cossim/COSSIM/gem5/run.sh and Txc.ned file saved in /home/cossim/OMNET_WORKSPACE/HLANode/src");
+						"Comnfiguration saved in /home/cossim/COSSIM/gem5/run.sh and Txc.ned file saved in /home/cossim/OMNET_WORKSPACE/HLANode/src" + savePath);
 				getWizard().getContainer().getShell().close();
 			}
 		});

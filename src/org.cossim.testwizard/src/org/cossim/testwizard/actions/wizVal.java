@@ -119,7 +119,6 @@ public class wizVal {
 	final String x86Dir = "x86-system/";
 	
 	
-	String configs = "$GEM5/configs/example/fs.py";
 	String benchName = "$GEM5/configs/boot/COSSIM/script";
 	String path =  "$GEM5";
 	String etherdump = "$GEM5";
@@ -143,7 +142,7 @@ public class wizVal {
 	
 	String PFile;
 	String[] clAtrrs = {"start", "end", "remoteOn", "benchmarkOn", "etherdumpOn", "Proc", "kernel", "disk-image", "mem-size", "SynchTime", "SynchTimeUnit",
-			"RxPacketTime", "RxPacketTimeUnit", "machine-type", "dtb", "script", "IP", "username", "password", "PATH", "powerOn", "mcpat-xml", "coreNumber"};
+			"RxPacketTime", "RxPacketTimeUnit", "ConfigPath", "dtb", "script", "IP", "username", "password", "PATH", "powerOn", "mcpat-xml", "coreNumber"};
 	
 	/* For map (Clusters) (21 positions)
 	0  β†’ cluster Start			(OK)			(int)
@@ -155,12 +154,12 @@ public class wizVal {
 	5  β†’ Proc						(OK)			(String)
 	6  β†’ kernel					(OK)			(String)				
 	7  β†’ disk-image				(OK)			(String)
-	8  β†’ mem-size					(OK)			(int 512 - 4096)
+	8  β†’ mem-size					(OK)			(int 2048 - 8192)
 	9  β†’ SyncTime					(OK)			(int)
 	10 β†’ SyncTime time unit		(OK)			(String)
 	11 β†’ PacketTime 				(OK)			(int)				
 	12 β†’ PacketTime time unit		(OK)			(String)
-	13 β†’ machine-type 			(OK)			(String)			
+	13 β†’ ConfigPath 				(OK)			(String)
 	14 β†’ dtb						(OK)			(String)
 	15 β†’ -b 						(OK)			(String)
 	16 β†’ IP										(String)
@@ -243,7 +242,7 @@ public class wizVal {
 	String[] createConf(Map<String, Map<String, String>> nodesAll) {
 		int totNodes1 = nodesAll.size();
 		String[] nodes = new String[totNodes1];
-		String[] build = new String[totNodes1]; // = "build/ARM/gem5.opt";
+		String[] build = new String[totNodes1]; // = "build/ARM/gem5.fast";
 		
 		final String s = " ";
 		String[] nn = new String[totNodes1];
@@ -251,45 +250,68 @@ public class wizVal {
 		
 		for (int k = 0; k < nodes.length; k++) {
 			if (nodesAll.get("node" + k).get("Proc").equals("x86")) {
-				build[k] = "$GEM5/build/X86/gem5.opt --listener-mode=on";
-			} else if (nodesAll.get("node" + k).get("Proc").equals("ARM-32")
-					|| nodesAll.get("node" + k).get("Proc").equals("ARM-64")) {
-				build[k] = "$GEM5/build/ARM/gem5.opt --listener-mode=on";
+				build[k] = "$GEM5/build/X86/gem5.fast --listener-mode=on";
+			} else if (nodesAll.get("node" + k).get("Proc").equals("ARM-64")) {
+				build[k] = "$GEM5/build/ARM/gem5.fast --listener-mode=on";
+
+			} else if (nodesAll.get("node" + k).get("Proc").equals("RISC-V")) {
+				build[k] = "$GEM5/build/RISCV/gem5.fast --listener-mode=on";
 
 			}
 		}
 
 		for (int k = 0; k < nodes.length; k++) {
 			if (nodesAll.get("node" + k).containsKey("Cores")) {
-				if (nodesAll.get("node" + k).get("Cores").equals("1")) { //dtd cores==1
-					nn[k] = "";					
-				}else if (nodesAll.get("node" + k).get("Cores").equals("2")) { //dtd cores==2
-					nn[k] = " -n 2";
-				} else if (nodesAll.get("node" + k).get("Cores").equals("4")) {
-					nn[k] = " -n 4";
-				}
+				if(nodesAll.get("node" + k).get("Proc").equals("x86")){	
+					if (nodesAll.get("node" + k).get("Cores").equals("1")) { //dtd cores==1
+						nn[k] = "";					
+					} else if (nodesAll.get("node" + k).get("Cores").equals("2")) { //dtd cores==2
+						nn[k] = " -n 2";
+					} else if (nodesAll.get("node" + k).get("Cores").equals("4")) {	//dtd cores==4
+						nn[k] = " -n 4";
+					} else if (nodesAll.get("node" + k).get("Cores").equals("8")) {	
+						nn[k] = " -n 8";
+					} else if (nodesAll.get("node" + k).get("Cores").equals("16")) {
+						nn[k] = " -n 16";
+					} else if (nodesAll.get("node" + k).get("Cores").equals("32")) {
+						nn[k] = " -n 32";
+					} else if (nodesAll.get("node" + k).get("Cores").equals("64")) {
+						nn[k] = " -n 64";
+					}
+				} else if (nodesAll.get("node" + k).get("Proc").equals("ARM-64")
+						|| nodesAll.get("node" + k).get("Proc").equals("RISC-V")) {
+					if (nodesAll.get("node" + k).get("Cores").equals("1")) { //dtd cores==1
+						nn[k] = " --num-cores=1";					
+					} else if (nodesAll.get("node" + k).get("Cores").equals("2")) { //dtd cores==2
+						nn[k] = " --num-cores=2";
+					} else if (nodesAll.get("node" + k).get("Cores").equals("4")) {	//dtd cores==4
+						nn[k] = " --num-cores=4";
+					} else if (nodesAll.get("node" + k).get("Cores").equals("8")) {				 
+						nn[k] = " --num-cores=8";
+					} else if (nodesAll.get("node" + k).get("Cores").equals("16")) {
+						nn[k] = " --num-cores=16";
+					} else if (nodesAll.get("node" + k).get("Cores").equals("32")) {
+						nn[k] = " --num-cores=32";
+					} else if (nodesAll.get("node" + k).get("Cores").equals("64")) {
+						nn[k] = " --num-cores=64";
+					}
+				}																					
+				
 			}
 		}
 	
 		for (int k = 0; k < nodes.length; k++) {
-			nodes[k] = build[k] + s + "-r -d $GEM5/node" + k + s + configs
-					+ nn[k]+ " --kernel=" + nodesAll.get("node" + k).get("kernel")
+			nodes[k] = build[k] + s + "-r -d $GEM5/node" + k + s
+					+ nodesAll.get("node" + k).get("ConfigPath")						
+					+ " --kernel=" + nodesAll.get("node" + k).get("kernel")
+					+ nn[k]
 					+ " --disk-image=" + nodesAll.get("node" + k).get("disk-image")
-					+ " --mem-size=" + nodesAll.get("node" + k).get("mem-size")/* + "MB"*/
-					+ " --SynchTime=" + nodesAll.get("node" + k).get("SynchTime")
-					+ nodesAll.get("node" + k).get("SynchTimeUnit") + " --RxPacketTime="
-					+ nodesAll.get("node" + k).get("RxPacketTime")
-					+ nodesAll.get("node" + k).get("RxPacketTimeUnit")
+					+ " --mem-size=" + nodesAll.get("node" + k).get("mem-size")
+					+ " --SynchTime=" + nodesAll.get("node" + k).get("SynchTime") + nodesAll.get("node" + k).get("SynchTimeUnit") 
+					+ " --RxPacketTime=" + nodesAll.get("node" + k).get("RxPacketTime") + nodesAll.get("node" + k).get("RxPacketTimeUnit")
 					+ " --TotalNodes=" + totNodes1 + " --nodeNum=" + k;
 			
-			if (nodesAll.get("node" + k).containsKey("machine-type")) {
-				nodes[k] = nodes[k].concat(" --machine-type=").concat(
-						nodesAll.get("node" + k).get("machine-type"));
-			}
-			if (nodesAll.get("node" + k).containsKey("dtb")) {
-				nodes[k] = nodes[k].concat(" --dtb=").concat(
-						nodesAll.get("node" + k).get("dtb"));
-			}
+			
 			if (nodesAll.get("node" + k).containsKey("script")) {
 				nodes[k] = nodes[k].concat(" --script=").concat(nodesAll
 						.get("node" + k).get("script")+".rcS");
@@ -297,7 +319,8 @@ public class wizVal {
 			if (nodesAll.get("node" + k).containsKey("etherdump")) {
 				nodes[k] = nodes[k].concat(" --etherdump=").concat(
 						nodesAll.get("node" + k).get("etherdump"));
-			}if (nodesAll.get("node" + k).containsKey("mcpat-xml")) {
+			}
+			if (nodesAll.get("node" + k).containsKey("mcpat-xml")) {
 				nodes[k] = nodes[k].concat(" --mcpat-xml=").concat(
 						nodesAll.get("node" + k).get("mcpat-xml"));
 			}

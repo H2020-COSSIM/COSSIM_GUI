@@ -1,5 +1,6 @@
 package org.cossim.testresults.actions;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,11 +13,14 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
+
 public class checkExist {
+
 
 	
 	//Find node#, checks if they are in correct order
@@ -26,12 +30,14 @@ public class checkExist {
 		int biggest;
 		Pattern pattern = Pattern.compile("^node([0-9]{1}[0-9]{0,1}[0-9]{0,1})$");
 
+
 		String gem5Path = System.getenv("GEM5");
 	
 		
 		if(findRootDirs()){
 			File currentDir = new File(gem5Path); // current directory
 			File[] files = currentDir.listFiles();
+
 
 			for (File file : files) { // Find Directories in order to find number of nodes
 				Matcher matcher = pattern.matcher(file.getName());
@@ -45,13 +51,16 @@ public class checkExist {
 				if (file.isDirectory() && matcher.find()) {
 					nodeInd.add(Integer.parseInt(file.getName().substring(4)));
 
+
 				}
 			}
+
 
 			if (Collections.max(nodeInd) == nodeNum) {
 				cor = true;
 			}
 		}
+
 
 		return cor;
 	}
@@ -59,6 +68,7 @@ public class checkExist {
 		boolean rd = false;
 		String gem5Path = System.getenv("GEM5");
 		Path gem5PathP = Paths.get(gem5Path); 
+
 
 		String mc = gem5Path+"/McPat";
 		Path mcP = Paths.get(mc);
@@ -77,7 +87,9 @@ public class checkExist {
 		//TODO Create regex
 		Pattern pattern = Pattern.compile("^node([0-9]{1}[0-9]{0,1}[0-9]{0,1})$");
 
+
 		String gem5Path = System.getenv("GEM5");
+
 
 		if(findNodeDir()  && findRootDirs()){
 			File currentDir = new File(gem5Path); // current directory
@@ -109,13 +121,16 @@ public class checkExist {
 			}
 			boolean test = true;
 
+
 			for (int i = 0; i < nodeNum(); i++) {
 				test = test && new File(dirs[i],st).exists();
 			}
 			
 			fs = test;
 
+
 		}
+
 
 		return fs;
 	}
@@ -139,8 +154,10 @@ public class checkExist {
 		return fe;
 	}
 
+
 	boolean allEx(){
 		boolean t;
+
 
 		boolean nd = findNodeDir();
 		boolean st = findStats();
@@ -153,6 +170,8 @@ public class checkExist {
 	public static void main(String[] args) {
 		checkExist c = new checkExist();
 
+
 	}
+
 
 }

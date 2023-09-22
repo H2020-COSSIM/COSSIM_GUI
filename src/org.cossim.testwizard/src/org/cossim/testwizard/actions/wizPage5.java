@@ -157,7 +157,7 @@ public class wizPage5 extends WizardPage{
 				MessageDialog.openInformation(
 						comp2.getShell(),
 						"Auto saved files",
-						"Comnfiguration saved in /home/cossim/COSSIM/gem5/run.sh and Txc.ned file saved in /home/cossim/OMNET_WORKSPACE/HLANode/src");
+						"Comnfiguration saved in /home/cossim/COSSIM/gem5/run.sh and Txc.ned file saved in /home/cossim/COSSIM/OMNET_WORKSPACE/HLANode/src");
 				getWizard().getContainer().getShell().close();
 				/*System.out.println("saved5(in P5 - in DoneBtn ModifyListener): "+values.Saved5);
 

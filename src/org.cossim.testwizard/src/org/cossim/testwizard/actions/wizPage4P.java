@@ -242,7 +242,7 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 		 parsed[5] = SynchTime Unit
 		 parsed[6] = RxPacketTime
 		 parsed[7] = RxPacketTime Unit
-		 parsed[8] = machine-type
+		 parsed[8] = ConfigPath
 		 parsed[9] = dtb
 		 parsed[10] = script
 		 parsed[11] = IP
@@ -276,11 +276,11 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 		for(int j=0;j<spaced.length;j++){			//Find kernel and proc
 			if(attrs[j][0].trim().equals("--kernel")){
 				parsed[1] = attrs[j][1];
-				if(attrs[j][1].equals("vmlinux.aarch32.ll_20131205.0-gem5")){
-					parsed[0]="ARM-32";
-				}else if(attrs[j][1].equals("vmlinux.aarch64.20140821")){
+				if(attrs[j][1].equals("vmlinux.arm64")){ 
 					parsed[0]="ARM-64";
-				}else if(attrs[j][1].equals("x86_64-vmlinux-3.2.24-smp")){
+				}else if(attrs[j][1].equals("riscv-bootloader-vmlinux-5.10-PCI")){ 
+					parsed[0]="RISC-V";
+				}else if(attrs[j][1].equals("vmlinux-5.4.49")){ 
 					parsed[0]="x86";
 				}
 			}
@@ -311,8 +311,8 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 			}
 		}
 		
-		for(int j=0;j<spaced.length;j++){			//Find --machine-type
-			if(attrs[j][0].trim().equals("--machine-type")){
+		for(int j=0;j<spaced.length;j++){			//Find --ConfigPath
+			if(attrs[j][0].trim().equals("--ConfigPath")){
 				parsed[8] = attrs[j][1];				
 			}
 		}
@@ -456,7 +456,7 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 				TreeItem machineTypeItem = new TreeItem(procItem, SWT.NONE);
 				TreeItem machineTypeItemV = new TreeItem(machineTypeItem,
 						SWT.NONE);
-				machineTypeItem.setText("machine-type");
+				machineTypeItem.setText("ConfigPath");
 				machineTypeItemV.setText(nodes[yy][8]);
 			}
 
@@ -814,34 +814,30 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 		final String[] addCl; // Dedomena gia to ADD Cluster
 		addCl = new String[23];
 
-		final String[] proc = { "ARM-32", "ARM-64", "x86" };
+		final String[] proc = { "RISC-V", "ARM-64", "x86" };
 
-		final String[] kernelA32 = { "vmlinux.aarch32.ll_20131205.0-gem5" };
-		final String[] kernelA64 = { "vmlinux.aarch64.20140821" };
-		final String[] kernelx86 = { "x86_64-vmlinux-3.2.24-smp" };
+		final String[] kernelRISCV = {"riscv-bootloader-vmlinux-5.10-PCI" };
+		final String[] kernelA64 = { "vmlinux.arm64" }; 
+		final String[] kernelx86 = { "vmlinux-5.4.49" }; 
 
-		final String[] diskImageA32 = { "linux-aarch32-ael.img", "aarch32-ubuntu-natty-headless.img" };   //
-		final String[] diskImageA64 = { "linaro-minimal-aarch64.img", "aarch64-ubuntu-trusty-headless.img" };
-		final String[] diskImagex86 = { "x86_64root.img", "ubuntu-12.04.img" };//
+		final String[] diskImageRISCV = {"riscv-ubuntu.img" };
+		final String[] diskImageA64 = { "ubuntu-18.04-arm64-docker.img" }; 
+		final String[] diskImagex86 = { "x86-ubuntu.img" }; 
 
-		final String[] memSize = { "512MB", "1024MB", "2048MB", "4096MB" };
+		final String[] memSize = { "2048MB", "4096MB", "8192MB" }; 
 
 		final String[] units = { "ms", "us" };
 
-		final String[] macType32 = { "VExpress_EMM" };
-		final String[] macType64 = { "VExpress_EMM64" };
+		final String[] macType64 = { "VExpress_GEM5_V1" }; 
 
-		final String[] dtb32 = {
-				"vexpress.aarch32.ll_20131205.0-gem5.1cpu.dtb",
-				"vexpress.aarch32.ll_20131205.0-gem5.2cpu.dtb",
-				"vexpress.aarch32.ll_20131205.0-gem5.4cpu.dtb" };
 
-		final String[] dtb64 = { "vexpress.aarch64.20140821.dtb" };
+		final String[] dtb64 = { "" }; 
+		final String[] dtbriscv = { "" };
 		
 		
-		final String[] dtb32c = {"1", "2", "4"};
-		final String[] dtb64c = {"1", "2", "4"};
-		final String[] dtb86c = {"1", "2", "4"};
+		final String[] dtbriscvc = {"1", "2", "4", "8", "16", "32", "64"};
+		final String[] dtb64c = {"1", "2", "4", "8", "16", "32", "64"};		
+		final String[] dtb86c = {"1", "2", "4", "8", "16", "32", "64"};		
 		
 		final String[] powerx86 = {"x86_AtomicSimpleCPU_template.xml"};
 		final String[] powerARM = {"ARM_AtomicSimpleCPU_template.xml"};
@@ -867,7 +863,7 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 		 * 9 β†’ SyncTimetime unit 		  
 		 * 10 β†’ PacketTime 				  
 		 * 11 β†’ PacketTimetime unit 	  
-		 * 12 β†’ machine-type 			  
+		 * 12 β†’ ConfigPath 			  
 		 * 13 β†’ dtb 					  
 		 * 14 β†’ -b 						
 		 * 15 β†’ IP 							 
@@ -881,30 +877,30 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 		 * 23 number of cores
 		 */
 		/* Gia to map (Clusters) (23 theseis ) (OLD -- EXEI ALLA3EI TO ETHERDUMP KAI H ARIMISH TWN PARAKATW)
-		0  β†’ cluster Start				(OK)			(int)
+		0  β†’ cluster Start			(OK)			(int)
 		1  β†’ cluster End				(OK)			(int)
 		2  β†’ remote					(OK)			(boolean)
-		3  β†’ script					(OK)           		(boolean)
+		3  β†’ script					(OK)           	(boolean)
 		========================================================
-		4  β†’ Proc					(OK)			(String)
+		4  β†’ Proc						(OK)			(String)
 		5  β†’ kernel					(OK)			(String)				
 		6  β†’ disk-image				(OK)			(String)
-		7  β†’ mem-size					(OK)			(int 512 - 4096)
+		7  β†’ mem-size					(OK)			(int 512 - 8192)
 		8  β†’ SyncTime					(OK)			(int)
-		9  β†’ SyncTime time unit			(OK)			(String)
+		9  β†’ SyncTime time unit		(OK)			(String)
 		10  β†’ PacketTime 				(OK)			(int)				
-		11 β†’ PacketTime time unit			(OK)			(String)
-		12 β†’ machine-type 				(OK)			(String)			
-		13 β†’ dtb					(OK)			(String)
-		14 β†’ -b 					(OK)			(String)
-		15 β†’ IP								(String)
-		16 β†’ username								(String)
-		17 β†’ password								(String)
-		18 β†’ path (gia to cd kai to etherdump)				(String)
-		19 β†’ Etherdump 							(boolean)
-		20 β†’ power	 					                (boolean)
+		11 β†’ PacketTime time unit		(OK)			(String)
+		12 β†’ ConfigPath 				(OK)			(String)			
+		13 β†’ dtb						(OK)			(String)
+		14 β†’ -b 						(OK)			(String)
+		15 β†’ IP										(String)
+		16 β†’ username									(String)
+		17 β†’ password									(String)
+		18 β†’ path (gia to cd kai to etherdump)		(String)
+		19 β†’ Etherdump 								(boolean)
+		20 β†’ power	 					            (boolean)
 		21 β†’ powerValue 						        (boolean)
-		22 β†’ number of Cores						        (int)
+		22 β†’ number of Cores						    (int)
 		*/
 
 
@@ -914,7 +910,7 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 		final Label procLbl;
 		final Label KernelLbl;
 		final Label diskImLbl;
-		final Label MachTypeLdl;
+		final Label configLbl;
 		final Label pathLbl;
 		final Label memSizeLbl;
 		final Label StLbl;
@@ -928,7 +924,7 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 		final Combo procComb;
 		final Combo KernelComb;
 		final Combo diskImComb;
-		final Combo MachTypeComb;
+		final Combo configComb;
 		final Combo memSizeComb;
 		final Combo dtdCombo;
 		final Button bench;
@@ -1029,12 +1025,12 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 		});
 
 		// MachineType and dtb if not x86
-		MachTypeLdl = new Label(grp_3, SWT.NONE);
-		MachTypeLdl.setText("machine-type");
-		MachTypeLdl.setEnabled(false);
-		MachTypeComb = new Combo(grp_3, SWT.DROP_DOWN |SWT.READ_ONLY);
-		MachTypeComb.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false, 2, 1));
-		MachTypeComb.setEnabled(false);
+		configLbl = new Label(grp_3, SWT.NONE);
+		configLbl.setText("ConfigPath");
+		configLbl.setEnabled(false);
+		configComb = new Combo(grp_3, SWT.DROP_DOWN |SWT.READ_ONLY);
+		configComb.setLayoutData(new GridData(SWT.FILL, SWT.BEGINNING, true, false, 2, 1));
+		configComb.setEnabled(false);
 
 		dtbLbl = new Label(grp_3, SWT.NONE);
 		dtbLbl.setLayoutData(new GridData(SWT.RIGHT,SWT.BEGINNING, true, false, 1, 1));
@@ -1504,8 +1500,8 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 							addBtn.setEnabled(add);
 							KernelComb.setItems(kernelx86);
 							diskImComb.setItems(diskImagex86);
-							MachTypeLdl.setEnabled(false);
-							MachTypeComb.setEnabled(false);
+							configLbl.setEnabled(false);
+							configComb.setEnabled(false);
 						//	if( addCl[12] != null){
 								addCl[12]=null;
 						//	}
@@ -1517,7 +1513,7 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 						//	}
 							dtbLblV.setEnabled(true);
 							dtbLblV.setText("Not Selected");
-						} else if (addCl[4].equals("ARM-32")) {
+						} /*else if (addCl[4].equals("ARM-32")) {
 							powerCmb.setItems(powerARM);
 							addOn[19]=false;
 							addOn[18]=true;
@@ -1538,7 +1534,7 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 							dtbLblV.setEnabled(true);
 							dtbLblV.setText("Not Selected");
 							addCl[13]=null;
-						} else if (addCl[4].equals("ARM-64")) {
+						}*/ else if (addCl[4].equals("ARM-64")) {
 							powerCmb.setItems(powerARM);
 							addOn[19]=false;
 							addOn[18]=true;
@@ -1546,9 +1542,9 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 							addBtn.setEnabled(add);
 							KernelComb.setItems(kernelA64);
 							diskImComb.setItems(diskImageA64);
-							MachTypeLdl.setEnabled(true);
-							MachTypeComb.setEnabled(true);
-							MachTypeComb.setItems(macType64);
+							configLbl.setEnabled(true);
+							configComb.setEnabled(true);
+							configComb.setItems(macType64);
 							addCl[12]=null;
 							dtbLbl.setEnabled(true);
 							dtdCombo.setEnabled(true);
@@ -1556,6 +1552,26 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 					//		if( addCl[13] != null){
 								addCl[13]=null;
 					//		}
+							dtbLblV.setEnabled(true);
+							dtbLblV.setText("Not Selected");
+						}	else if (addCl[4].equals("RISC-V")) {
+							powerCmb.setItems(powerARM);
+							addOn[19]=false;
+							addOn[18]=true;
+							add = check_addClEnable(addOn);
+							addBtn.setEnabled(add);
+							KernelComb.setItems(kernelRISCV);
+							diskImComb.setItems(diskImageRISCV);
+							configLbl.setEnabled(true);
+							configComb.setEnabled(true);
+							configComb.setItems(macType64);
+							addCl[12]=null;
+							dtbLbl.setEnabled(true);
+							dtdCombo.setEnabled(true);
+							dtdCombo.setItems(dtbriscvc);
+						//	if( addCl[13] != null){
+								addCl[13]=null;
+						//	}
 							dtbLblV.setEnabled(true);
 							dtbLblV.setText("Not Selected");
 						}
@@ -1573,8 +1589,8 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 							memSizeComb.deselectAll();
 							RxPcktTextT.setText("");
 							RxPcktCombU.deselectAll();
-							MachTypeComb.deselectAll();
-							MachTypeComb.setEnabled(false);
+							configComb.deselectAll();
+							configComb.setEnabled(false);
 							dtdCombo.deselectAll();
 							dtbLblV.setText("Not Selected");
 							IPText.setText("");
@@ -1586,7 +1602,7 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 							powerBtn.setSelection(false);
 							powerCmb.deselectAll();
 							powerCmb.setEnabled(false);
-							if(procComb.getText().equals("ARM-32")){
+							/*if(procComb.getText().equals("ARM-32")){
 								KernelComb.setItems(kernelA32);
 								
 								diskImComb.setItems(diskImageA32);
@@ -1602,37 +1618,50 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 								powerCmb.setItems(powerARM);
 								powerBtn.setSelection(false);
 								
-							}else if(procComb.getText().equals("ARM-64")){
+							}else*/ if(procComb.getText().equals("ARM-64")){
 								KernelComb.setItems(kernelA64);
 								diskImComb.setItems(diskImageA64);
 								
-								MachTypeLdl.setEnabled(true);
-								MachTypeComb.setEnabled(true);
-								MachTypeComb.setItems(macType64);
+								configLbl.setEnabled(true);
+								configComb.setEnabled(true);
+								configComb.setItems(macType64);
 								
 								dtbLbl.setEnabled(true);
 								dtdCombo.setEnabled(true);
 								dtdCombo.setItems(dtb64c);
 								powerBtn.setSelection(false);
 								powerCmb.setItems(powerARM);
+							}else if(procComb.getText().equals("RISC-V")){
+								KernelComb.setItems(kernelRISCV);
+								diskImComb.setItems(diskImageRISCV);
+								
+								configLbl.setEnabled(true);
+								configComb.setEnabled(true);
+								configComb.setItems(macType64);
+								
+								dtbLbl.setEnabled(true);
+								dtdCombo.setEnabled(true);
+								dtdCombo.setItems(dtbriscvc);
+								powerBtn.setSelection(false);
+								powerCmb.setItems(powerARM);
 							}else if(procComb.getText().equals("x86")){
 								KernelComb.setItems(kernelx86);
 								diskImComb.setItems(diskImagex86);
-								MachTypeLdl.setEnabled(false);
-								MachTypeComb.setEnabled(false);
+								configLbl.setEnabled(false);
+								configComb.setEnabled(false);
 								dtbLbl.setEnabled(true);
 								dtbLbl.setEnabled(true);
 								dtdCombo.setEnabled(true);
 								dtdCombo.setItems(dtb86c);
 								powerBtn.setSelection(false);
 								powerCmb.setItems(powerx86);
-								medNodeMap.remove("machine-type");
+								medNodeMap.remove("ConfigPath");
 								medNodeMap.remove("dtb");
 							}
 
 								medNodeMap.put("Proc", procComb.getText());	
 							}else{//An den alla3ei o proc!!!!!!!!!!
-								if(procComb.getText().equals("ARM-32")){
+								/*if(procComb.getText().equals("ARM-32")){
 									KernelComb.setItems(kernelA32);
 									KernelComb.select(Arrays.asList(kernelA32).indexOf(medNodeMap.get("kernel")));
 									
@@ -1657,16 +1686,16 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 										powerBtn.setSelection(false);
 										powerCmb.setEnabled(false);
 									}
-								}else if(procComb.getText().equals("ARM-64")){
+								}else*/ if(procComb.getText().equals("ARM-64")){
 									KernelComb.setItems(kernelA64);
 									KernelComb.select(Arrays.asList(kernelA64).indexOf(medNodeMap.get("kernel")));
 									diskImComb.setItems(diskImageA64);
 									diskImComb.select(Arrays.asList(diskImageA64).indexOf(medNodeMap.get("disk-image")));
 									
-									MachTypeLdl.setEnabled(true);
-									MachTypeComb.setEnabled(true);
-									MachTypeComb.setItems(macType64);
-									MachTypeComb.select(Arrays.asList(macType64).indexOf(medNodeMap.get("machine-type")));
+									configLbl.setEnabled(true);
+									configComb.setEnabled(true);
+									configComb.setItems(macType64);
+									configComb.select(Arrays.asList(macType64).indexOf(medNodeMap.get("ConfigPath")));
 									
 									dtbLbl.setEnabled(true);
 									dtdCombo.setEnabled(true);
@@ -1682,12 +1711,37 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 										powerCmb.setEnabled(false);
 									}
 
+								}else if(procComb.getText().equals("RISC-V")){
+									KernelComb.setItems(kernelRISCV);
+									KernelComb.select(Arrays.asList(kernelRISCV).indexOf(medNodeMap.get("kernel")));
+									diskImComb.setItems(diskImageRISCV);
+									diskImComb.select(Arrays.asList(diskImageRISCV).indexOf(medNodeMap.get("disk-image")));
+									
+									configLbl.setEnabled(true);
+									configComb.setEnabled(true);
+									configComb.setItems(macType64);
+									configComb.select(Arrays.asList(macType64).indexOf(medNodeMap.get("ConfigPath")));
+									
+									dtbLbl.setEnabled(true);
+									dtdCombo.setEnabled(true);
+									dtdCombo.setItems(dtbriscvc);
+									dtdCombo.select(Arrays.asList(dtbriscv).indexOf(medNodeMap.get("dtb")));
+									
+									powerCmb.setItems(powerARM);
+									if(medNodeMap.containsKey("mcpat-xml")){
+										powerBtn.setSelection(true);
+										powerCmb.select(Arrays.asList(powerARM).indexOf(medNodeMap.get("mcpat-xml")));
+									}else{
+										powerBtn.setSelection(false);
+										powerCmb.setEnabled(false);
+									}
+
 								}else if(procComb.getText().equals("x86")){
 									KernelComb.setItems(kernelx86);
 									KernelComb.select(Arrays.asList(kernelx86).indexOf(medNodeMap.get("kernel")));
 									diskImComb.setItems(diskImagex86);
 									diskImComb.select(Arrays.asList(diskImagex86).indexOf(medNodeMap.get("disk-image")));
-									MachTypeLdl.setEnabled(false);
+									configLbl.setEnabled(false);
 									dtbLbl.setEnabled(true);
 									dtdCombo.setEnabled(true);
 									dtdCombo.setItems(dtb86c);
@@ -1731,7 +1785,7 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 					}else if(!values.addOrEdit){
 						if(btn.getSelection()){
 							powerCmb.setEnabled(true);
-							if(procComb.getText().equals("ARM-32") || procComb.getText().equals("ARM-64")){
+							if(/*procComb.getText().equals("ARM-32") ||*/ procComb.getText().equals("ARM-64") || procComb.getText().equals("RISC-V")){
 								powerCmb.setItems(powerARM);
 							}else if(procComb.getText().equals("x86")){
 								powerCmb.setItems(powerx86);
@@ -1746,7 +1800,6 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 
 				}
 			});
-			
 
 			powerCmb.addSelectionListener(new SelectionListener() {
 				public void widgetSelected(SelectionEvent e) {
@@ -1885,19 +1938,19 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 				}
 			});
 			
-			MachTypeComb.addSelectionListener(new SelectionListener() {
+			configComb.addSelectionListener(new SelectionListener() {
 				public void widgetSelected(SelectionEvent e) {
 					if(values.addOrEdit){
 						addOn[12]=true;
 						add = check_addClEnable(addOn);
 						addBtn.setEnabled(add);
-						addCl[12] = MachTypeComb.getText();
+						addCl[12] = configComb.getText();
 					}else if(!values.addOrEdit){
-						if(procComb.getText().equals("ARM-32") || procComb.getText().equals("ARM-64")){
-							medNodeMap.put("machine-type", MachTypeComb.getText());
+						if(/*procComb.getText().equals("ARM-32") ||*/ procComb.getText().equals("ARM-64") || procComb.getText().equals("RISC-V")){
+							medNodeMap.put("ConfigPath", configComb.getText());
 							addBtn.setEnabled(true);
-						}else if(medNodeMap.containsKey("machine-type")){
-							medNodeMap.remove("machine-type");
+						}else if(medNodeMap.containsKey("ConfigPath")){
+							medNodeMap.remove("ConfigPath");
 						}
 					}
 				
@@ -1919,7 +1972,7 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 						dtbLblV.setText("Number of Cores: "+dtdCombo.getText());
 						if(addCl[4].equals("x86")){
 							addCl[13] = "null";
-						}else if(addCl[4].equals("ARM-32")){
+						}/*else if(addCl[4].equals("ARM-32")){
 							if(dtdCombo.getText().equals("1")){
 								addCl[13] = dtb32[0];
 							}else if(dtdCombo.getText().equals("2")){
@@ -1927,14 +1980,16 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 							}else if(dtdCombo.getText().equals("4")){
 								addCl[13] = dtb32[2];
 							}
-						}else if(addCl[4].equals("ARM-64")){
+						}*/else if(addCl[4].equals("ARM-64")){
 							addCl[13] = dtb64[0];
+						}else if(addCl[4].equals("RISC-V")){
+							addCl[13] = dtbriscv[0];
 						}
 					}else if(!values.addOrEdit){
 						dtbLblV.setText("Number of Cores: "+dtdCombo.getText());
 						medNodeMap.put("Cores", dtdCombo.getText());
 						
-							if(procComb.getText().equals("ARM-32")){
+							/*if(procComb.getText().equals("ARM-32")){
 								if(dtdCombo.getText().equals("1")){
 									medNodeMap.put("dtb", dtb32[0]);
 								}else if(dtdCombo.getText().equals("2")){
@@ -1942,8 +1997,10 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 								}else if(dtdCombo.getText().equals("4")){
 									medNodeMap.put("dtb", dtb32[2]);
 								}
-							}else if(procComb.getText().equals("ARM-64")){
+							}else*/ if(procComb.getText().equals("ARM-64")){
 								medNodeMap.put("dtb", dtb64[0]);
+							}else if(procComb.getText().equals("RISC-V")){
+								medNodeMap.put("dtb", dtbriscv[0]);
 							}else if(procComb.getText().equals("x86")){
 								if(medNodeMap.containsKey("dtb")){
 									medNodeMap.remove("dtb");
@@ -1968,7 +2025,7 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
  				procComb.deselectAll();
 				KernelComb.deselectAll();
 				diskImComb.deselectAll();
-				MachTypeComb.deselectAll();
+				configComb.deselectAll();
 				memSizeComb.deselectAll();
 				dtdCombo.deselectAll();
 				powerCmb.deselectAll();
@@ -2052,9 +2109,9 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
  							procComb.select(Arrays.asList(proc).indexOf(medNodeMap.get("Proc")));
  						}
  						
- 						if(!medNodeMap.containsKey("machine-type")){
- 							MachTypeLdl.setEnabled(false);
- 							MachTypeComb.setEnabled(false);
+ 						if(!medNodeMap.containsKey("ConfigPath")){
+ 							configLbl.setEnabled(false);
+ 							configComb.setEnabled(false);
  						}
  						
  						if(!medNodeMap.containsKey("IP")){
@@ -2070,18 +2127,21 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
  							passText.setEnabled(false);
  						}
  						
- 						if(medNodeMap.containsKey("machine-type")){
- 							MachTypeLdl.setEnabled(true);
- 							MachTypeComb.setEnabled(true);
- 							if(procComb.getText().equals("ARM-32")){
+ 						if(medNodeMap.containsKey("ConfigPath")){
+ 							configLbl.setEnabled(true);
+ 							configComb.setEnabled(true);
+ 							/*if(procComb.getText().equals("ARM-32")){
  								MachTypeComb.setItems(macType32);
  								MachTypeComb.select(Arrays.asList(macType32).indexOf(medNodeMap.get("machine-type")));
- 							}else if(procComb.getText().equals("ARM-64")){
- 								MachTypeComb.setItems(macType64);
- 								MachTypeComb.select(Arrays.asList(macType64).indexOf(medNodeMap.get("machine-type")));
+ 							}else*/ if(procComb.getText().equals("ARM-64")){
+ 								configComb.setItems(macType64);
+ 								configComb.select(Arrays.asList(macType64).indexOf(medNodeMap.get("ConfigPath")));
+ 							}else if(procComb.getText().equals("RISC-V")){
+ 								configComb.setItems(macType64);
+ 								configComb.select(Arrays.asList(macType64).indexOf(medNodeMap.get("ConfigPath")));
  							}else if(procComb.getText().equals("x86")){
- 								MachTypeComb.setEnabled(false);
- 								MachTypeLdl.setEnabled(false);
+ 								configComb.setEnabled(false);
+ 								configLbl.setEnabled(false);
  							}
  						}
  						
@@ -2091,12 +2151,15 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
  							dtbLblV.setEnabled(true);
  							dtbLblV.setText("Number of Cores: "+medNodeMap.get("Cores"));
  							dtdCombo.setEnabled(true);
- 							if(procComb.getText().equals("ARM-32")){
+ 							/*if(procComb.getText().equals("ARM-32")){
  								dtdCombo.setItems(dtb32c);
  								dtdCombo.select(Arrays.asList(dtb32c).indexOf(medNodeMap.get("Cores")));
- 							}else if(procComb.getText().equals("ARM-64")){
+ 							}else*/ if(procComb.getText().equals("ARM-64")){
  								dtdCombo.setItems(dtb64c);
  								dtdCombo.select(Arrays.asList(dtb64c).indexOf(medNodeMap.get("Cores")));
+ 							}else if(procComb.getText().equals("RISC-V")){
+ 								dtdCombo.setItems(dtbriscvc);
+ 								dtdCombo.select(Arrays.asList(dtbriscvc).indexOf(medNodeMap.get("Cores")));
  							}else if(procComb.getText().equals("x86")){
  								dtdCombo.setItems(dtb86c);
  								dtdCombo.select(Arrays.asList(dtb86c).indexOf(medNodeMap.get("Cores")));
@@ -2106,12 +2169,15 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
  						if(medNodeMap.containsKey("kernel")){
  							KernelComb.setEnabled(true);
  							KernelLbl.setEnabled(true);
- 							if(procComb.getText().equals("ARM-32")){
+ 							/*if(procComb.getText().equals("ARM-32")){
  								KernelComb.setItems(kernelA32);
  								KernelComb.select(Arrays.asList(kernelA32).indexOf(medNodeMap.get("kernel")));
- 							}else if(procComb.getText().equals("ARM-64")){
+ 							}else*/ if(procComb.getText().equals("ARM-64")){
  								KernelComb.setItems(kernelA64);
  								KernelComb.select(Arrays.asList(kernelA64).indexOf(medNodeMap.get("kernel")));
+ 							}else if(procComb.getText().equals("RISC-V")){
+ 								KernelComb.setItems(kernelRISCV);
+ 								KernelComb.select(Arrays.asList(kernelRISCV).indexOf(medNodeMap.get("kernel")));
  							}else if(procComb.getText().equals("x86")){
  								KernelComb.setItems(kernelx86);
  								KernelComb.select(Arrays.asList(kernelx86).indexOf(medNodeMap.get("kernel")));
@@ -2121,18 +2187,20 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
  						if(medNodeMap.containsKey("disk-image")){
  							diskImComb.setEnabled(true);
  							diskImLbl.setEnabled(true);
- 							if(procComb.getText().equals("ARM-32")){
+ 							/*if(procComb.getText().equals("ARM-32")){
  								diskImComb.setItems(diskImageA32);
  								diskImComb.select(Arrays.asList(diskImageA32).indexOf(medNodeMap.get("disk-image")));
- 							}else if(procComb.getText().equals("ARM-64")){
+ 							}else*/ if(procComb.getText().equals("ARM-64")){
  								diskImComb.setItems(diskImageA64);
  								diskImComb.select(Arrays.asList(diskImageA64).indexOf(medNodeMap.get("disk-image")));
+ 							}else if(procComb.getText().equals("RISC-V")){
+ 								diskImComb.setItems(diskImageRISCV);
+ 								diskImComb.select(Arrays.asList(diskImageRISCV).indexOf(medNodeMap.get("disk-image")));
  							}else if(procComb.getText().equals("x86")){
  								diskImComb.setItems(diskImagex86);
  								diskImComb.select(Arrays.asList(diskImagex86).indexOf(medNodeMap.get("disk-image")));
  							}
  						}
- 						
  						
  						if(medNodeMap.containsKey("mem-size")){
  							memSizeLbl.setEnabled(true);
@@ -2197,7 +2265,7 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
  							powerBtn.setEnabled(true);
  							powerBtn.setSelection(true);
  							powerCmb.setEnabled(true);
- 							if(procComb.getText().equals("ARM-32") || procComb.getText().equals("ARM-64")){
+ 							if(/*procComb.getText().equals("ARM-32") ||*/ procComb.getText().equals("ARM-64") || procComb.getText().equals("RISC-V")){
  								powerCmb.setItems(powerARM);
  								powerCmb.select(Arrays.asList(powerARM).indexOf(medNodeMap.get("mcpat-xml")));
  							}else if(procComb.getText().equals("x86")){
@@ -2287,7 +2355,7 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 								TreeItem machineTypeItem = new TreeItem(procItem, SWT.NONE);
 								TreeItem machineTypeItemV = new TreeItem(machineTypeItem,
 										SWT.NONE);
-								machineTypeItem.setText("machine-type");
+								machineTypeItem.setText("ConfigPath");
 								machineTypeItemV.setText(addCl[12]);
 							}
 							if (addCl[13] != null || addCl[13] != "null") {
@@ -2487,11 +2555,11 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 						RxpacketTimeUItem.setText("RxPacketTimeUnit");
 						RxpacketTimeUItemV.setText(medNodeMap.get("RxPacketTimeUnit"));
 						
-						if (medNodeMap.containsKey("machine-type")) {
+						if (medNodeMap.containsKey("ConfigPath")) {
 							TreeItem machineTypeItem = new TreeItem(procItem, SWT.NONE);
 							TreeItem machineTypeItemV = new TreeItem(machineTypeItem,SWT.NONE);
-							machineTypeItem.setText("machine-type");
-							machineTypeItemV.setText(medNodeMap.get("machine-type"));
+							machineTypeItem.setText("ConfigPath");
+							machineTypeItemV.setText(medNodeMap.get("ConfigPath"));
 
 						}
 						if (medNodeMap.containsKey("dtb")) {
@@ -2556,7 +2624,7 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 					procComb.deselectAll();
 					KernelComb.deselectAll();
 					diskImComb.deselectAll();
-					MachTypeComb.deselectAll();
+					configComb.deselectAll();
 					memSizeComb.deselectAll();
 					dtdCombo.deselectAll();
 					powerCmb.deselectAll();
@@ -2665,7 +2733,7 @@ boolean[] findRemote(String[] lines){ //Epistrefei poioi komboi (grammes) einai 
 				MessageDialog.openInformation(
 						container.getShell(),
 						"Auto saved files",
-						"Comnfiguration saved in /home/cossim/COSSIM/gem5/run.sh and Txc.ned file saved in /home/cossim/OMNET_WORKSPACE/HLANode/src");
+						"Comnfiguration saved in /home/cossim/COSSIM/gem5/run.sh and Txc.ned file saved in /home/cossim/OMNET_WORKSPACE/HLANode/src" + savePath);
 				getWizard().getContainer().getShell().close();
 				
 			}
